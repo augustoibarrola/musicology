@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import Dropdown from './Components/Dropdown'
+import axios from 'axios'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+const App = () => {
+
+  const data = [
+    {value: 1, name: "A" },
+    {value: 2, name: "B" },
+    {value: 3, name: "C" }
+]
+
+const [token, setToken] = useState('')
+
+  return(
+    <div> 
+      <form onSubmit={() => {}}> 
+        <Dropdown data={data}/>
+        <button type="submit" >
+          search
+        </button>
+      </form>
     </div>
-  );
+
+  )
 }
 
-export default App;
+export default App 
