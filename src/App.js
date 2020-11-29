@@ -15,13 +15,14 @@ const App = () => {
 const [token, setToken] = useState('')
 
 useEffect(() => {
-  fetch('https://accounts.spotify.com/api/token', {
-    method: 'POST',
+  axios('https://accounts.spotify.com/api/token', {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Authorization': 'Basic' + btoa('a8e7bf99837d4be583b6775b84b5ec87' + ':' + '713c72bae95a479caddcef458718abac')
     },
-    data: 'grant_type=client_credentials'
+    data: 'grant_type=client_credentials',
+    method: 'POST',
+
   })
   .then(response => {
     console.log(response)
