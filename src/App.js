@@ -33,11 +33,15 @@ useEffect(() => {
         'Authorization' : 'Bearer ' + tokenResponse.data.access_token 
       },
     })
-    .then(getSearchResponse => { console.log(getSearchResponse)
+    .then(getSearchResponse => { 
+      setGenre({
+        selectedGenre: genre.selectedGenre,
+        listOfGenresFromAPI: getSearchResponse.data.categories.items
+      })
     })
 
   })
-}, [])
+}, [ genre.selectedGenre, process.env.REACT_APP_CLIENT_ID, process.env.REACT_APP_CLIENT_SECRET ])
   
   return(
     <div> 
