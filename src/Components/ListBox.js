@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
+import Track from './Track.js'
 
 const ListBox = (props) => {
-    console.log("props at listbox => ", props )
-    console.log("items at listbox => ", props.items)
-    
+
     const clicked = (event) => {
         event.preventDefault()
         props.clicked(event.target.id)
@@ -13,7 +12,7 @@ const ListBox = (props) => {
         <div> 
             {
                 props.items.map((item, index) => {
-                    return <button key={ index } id={ item.track.id } onClick={ clicked }  > {item.track.name}</button>
+                    return <button key={ index } id={ item.track.id } onClick={ clicked } > {item.track.name}</button>
                 })
             }
         </div>

@@ -2,20 +2,16 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import Dropdown from './Components/Dropdown.js'
 import ListBox from './Components/ListBox.js'
+import Track from './Components/Track.js'
 
 const App = () => {
-
-  const options = [
-    {value: 1, name: "A" },
-    {value: 2, name: "B" },
-    {value: 3, name: "C" }
-  ]
 
   const [token, setToken] = useState('')
   const [genre, setGenre] = useState({ selectedGenre: '', listOfGenresFromAPI: [] })
   const [playlist, setPlaylist] = useState({ selectedPlaylist: '', listOfPlaylistFromAPI: [] })
   const [tracks, setTracks] = useState({ selectedTracks: '', listOfTracksFromAPI: []})
-  const [trackDetail, setTrackDetail] = useState(null)
+  const [showTrack, setShowTrack] = useState(false)
+  const [selectedTrack, setSelectedTrack] = useState('')
 
   useEffect(() => {
     axios('https://accounts.spotify.com/api/token', {
@@ -98,25 +94,31 @@ const App = () => {
   }
 
   const listboxClicked = (value) => {
+    console.log("TRACK ID => ", value)
+    console.log("TRACKS => ", tracks.listOfTracksFromAPI)
 
-    const currentTracks = [...tracks.listOfTracksFromAPI];
-
-    const trackInfo = currentTracks.filter(t => t.track.id === value);
-
-    setTrackDetail(trackInfo[0].track);
+    const track = tracks.listOfTracksFromAPI.filter(t => t.track.id == value)
+    console.log(track)
+    setSelectedTrack(track)
+    setShowTrack(true)
 
   }
   
   return(
     <div> 
       <form onSubmit={ buttonClicked }> 
+        Genres:
         <Dropdown options={genre.listOfGenresFromAPI} selectedValue={ genre.selectedGenre } changed={genreChanged}/>
+        Genre's Playlists
         <Dropdown options={playlist.listOfPlaylistFromAPI} selectedValue={playlist.selectedPlaylist} changed={playlistChanged}/>
         <button type="submit" >
-          search
+          Search for Tracks
         </button>
       </form>
       <ListBox  items={tracks.listOfTracksFromAPI} clicked={listboxClicked} />
+      <div>
+        { showTrack ? <Track selectedTrack={selectedTrack} /> : null }
+      </div>
     </div>
 
   )
