@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import Dropdown from './Components/Dropdown'
 import axios from 'axios'
+import Dropdown from './Components/Dropdown.js'
+import ListBox from './Components/ListBox.js'
 
 const App = () => {
 
@@ -13,6 +14,8 @@ const App = () => {
   const [token, setToken] = useState('')
   const [genre, setGenre] = useState({ selectedGenre: '', listOfGenresFromAPI: [] })
   const [playlist, setPlaylist] = useState({ selectedPlaylist: '', listOfPlaylistFromAPI: [] })
+  const [tracks, setTracks] = useState({ selectedTracks: '', listOfTracksFromAPI: []})
+  const [trackDetail, setTrackDetail] = useState(null)
 
   useEffect(() => {
     axios('https://accounts.spotify.com/api/token', {
@@ -64,23 +67,54 @@ const App = () => {
   }
 
   const playlistChanged = (value) => {
-
+    console.log(`PLAYLIST ID SET TO ${value}`)
     setPlaylist({
       selectedPlaylist: value, 
       listOfPlaylistFromAPI: playlist.listOfPlaylistFromAPI
     })
+  }
+
+  const buttonClicked = (event) => {
+    console.log(tracks)
+    event.preventDefault()
+
+    axios(`https://api.spotify.com/v1/playlists/${playlist.selectedPlaylist}/tracks?limit=10`, {
+      method: 'GET',
+      headers: {
+        'Authorization' : 'Bearer ' + token
+      }
+    })
+    .then(tracksResponse => {
+      console.log("GET REQUEST FOR TRACKS => ", tracksResponse)
+      setTracks({
+        selectedTracks: tracks.selectedTracks, 
+        listOfTracksFromAPI: tracksResponse.data.items
+      })
+      console.log(tracks)
+
+    })
+  }
+
+  const listboxClicked = (value) => {
+
+    const currentTracks = [...tracks.listOfTracksFromAPI];
+
+    const trackInfo = currentTracks.filter(t => t.track.id === value);
+
+    setTrackDetail(trackInfo[0].track);
 
   }
   
   return(
     <div> 
-      <form onSubmit={() => {}}> 
+      <form onSubmit={ buttonClicked }> 
         <Dropdown options={genre.listOfGenresFromAPI} selectedValue={ genre.selectedGenre } changed={genreChanged}/>
-        <Dropdown options={playlist.listOfPlaylistFromAPI} selectedValue={playlist.selectedPlaylist}/>
+        <Dropdown options={playlist.listOfPlaylistFromAPI} selectedValue={playlist.selectedPlaylist} changed={playlistChanged}/>
         <button type="submit" >
           search
         </button>
       </form>
+      <ListBox  items={tracks.listOfTracksFromAPI} clicked={listboxClicked} />
     </div>
 
   )

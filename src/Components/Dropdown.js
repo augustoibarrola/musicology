@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 
 const Dropdown = ( props ) => {
-    console.log(props)
 
    const dropdownChanged = (event) => {
        props.changed(event.target.value)
