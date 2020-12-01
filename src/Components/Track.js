@@ -1,15 +1,30 @@
 import React, {useState, useEffect} from 'react'
 
 const Track = ({ selectedTrack }) => {
-    console.log("SELECTED TRACK => ", selectedTrack)
-    console.log(selectedTrack[0].track.album.images[0])
+    console.log(selectedTrack[0].track)
+
+    const [album, setAlbum] = useState({
+        name:'',
+        image:'',
+        albumId:'',
+        releaseDate:''
+    })
+
+    useEffect(() => {
+        setAlbum({
+        name: selectedTrack[0].track.album.name, 
+        image: selectedTrack[0].track.album.images[0].url,
+        albumId: selectedTrack[0].track.album.id,
+        releaseDate: selectedTrack[0].track.album.release_date
+        })
+    }, [])
+
     return( 
         <div>
-            <img src={selectedTrack[0].track.album.images[0].url}></img>
+            <img src={album.image}></img>
+            <h2>{album.name}</h2>
         </div>
     )
-
-
 }
 
 export default Track

@@ -5,7 +5,7 @@ import ListBox from './Components/ListBox.js'
 import Track from './Components/Track.js'
 
 const App = () => {
-
+  
   const [token, setToken] = useState('')
   const [genre, setGenre] = useState({ selectedGenre: '', listOfGenresFromAPI: [] })
   const [playlist, setPlaylist] = useState({ selectedPlaylist: '', listOfPlaylistFromAPI: [] })
@@ -53,7 +53,6 @@ const App = () => {
       headers: { 'Authorization' : 'Bearer ' + token}
     })
     .then(playlistResponse => {
-      console.log(playlistResponse)
       setPlaylist({
         selectedPlaylist: playlist.selectedPlaylist,
         listOfPlaylistFromAPI: playlistResponse.data.playlists.items
@@ -63,7 +62,6 @@ const App = () => {
   }
 
   const playlistChanged = (value) => {
-    console.log(`PLAYLIST ID SET TO ${value}`)
     setPlaylist({
       selectedPlaylist: value, 
       listOfPlaylistFromAPI: playlist.listOfPlaylistFromAPI
@@ -71,7 +69,6 @@ const App = () => {
   }
 
   const buttonClicked = (event) => {
-    console.log(tracks)
     event.preventDefault()
 
     axios(`https://api.spotify.com/v1/playlists/${playlist.selectedPlaylist}/tracks?limit=15`, {
@@ -83,22 +80,18 @@ const App = () => {
       }
     })
     .then(tracksResponse => {
-      console.log("GET REQUEST FOR TRACKS => ", tracksResponse)
       setTracks({
         selectedTracks: tracks.selectedTracks, 
         listOfTracksFromAPI: tracksResponse.data.items
       })
-      console.log(tracks)
 
     })
   }
 
   const listboxClicked = (value) => {
-    console.log("TRACK ID => ", value)
-    console.log("TRACKS => ", tracks.listOfTracksFromAPI)
+
 
     const track = tracks.listOfTracksFromAPI.filter(t => t.track.id == value)
-    console.log(track)
     setSelectedTrack(track)
     setShowTrack(true)
 
