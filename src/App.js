@@ -78,10 +78,12 @@ const App = () => {
     console.log(tracks)
     event.preventDefault()
 
-    axios(`https://api.spotify.com/v1/playlists/${playlist.selectedPlaylist}/tracks?limit=10`, {
+    axios(`https://api.spotify.com/v1/playlists/${playlist.selectedPlaylist}/tracks?limit=15`, {
       method: 'GET',
       headers: {
-        'Authorization' : 'Bearer ' + token
+        'Authorization' : 'Bearer ' + token, 
+        'Content-Type' : 'application/json',
+        'Accept' : 'application/json'
       }
     })
     .then(tracksResponse => {
