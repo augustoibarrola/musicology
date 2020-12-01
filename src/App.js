@@ -4,8 +4,6 @@ import axios from 'axios'
 
 const App = () => {
 
-  // const spotify = Credentials()
-
   const options = [
     {value: 1, name: "A" },
     {value: 2, name: "B" },
@@ -14,6 +12,7 @@ const App = () => {
 
   const [token, setToken] = useState('')
   const [genre, setGenre] = useState({ selectedGenre: '', listOfGenresFromAPI: [] })
+  const [playlist, setPlaylist] = useState({ selectedPlaylist: '', listOfPlaylistFromAPI: [] })
 
   useEffect(() => {
     axios('https://accounts.spotify.com/api/token', {
@@ -44,17 +43,40 @@ const App = () => {
   }, [ genre.selectedGenre, process.env.REACT_APP_CLIENT_ID, process.env.REACT_APP_CLIENT_SECRET ])
 
   const genreChanged = (value) => {
+
     setGenre({
       selectedGenre: value, 
       listOfGenresFromAPI: genre.listOfGenresFromAPI
+    });
+
+    axios(`https://api.spotify.com/v1/browse/categories/${value}/playlists`, {
+      method: 'GET',
+      headers: { 'Authorization' : 'Bearer ' + token}
     })
+    .then(playlistResponse => {
+      console.log(playlistResponse)
+      setPlaylist({
+        selectedPlaylist: playlist.selectedPlaylist,
+        listOfPlaylistFromAPI: playlistResponse.data.playlists.items
+      })
+    })
+
+  }
+
+  const playlistChanged = (value) => {
+
+    setPlaylist({
+      selectedPlaylist: value, 
+      listOfPlaylistFromAPI: playlist.listOfPlaylistFromAPI
+    })
+
   }
   
   return(
     <div> 
       <form onSubmit={() => {}}> 
         <Dropdown options={genre.listOfGenresFromAPI} selectedValue={ genre.selectedGenre } changed={genreChanged}/>
-        <Dropdown options={options}/>
+        <Dropdown options={playlist.listOfPlaylistFromAPI} selectedValue={playlist.selectedPlaylist}/>
         <button type="submit" >
           search
         </button>
