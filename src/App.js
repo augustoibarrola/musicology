@@ -108,7 +108,16 @@ const App = () => {
     setShowTrack(true)
 
   }
+
+
+//   const clicked = (event) => {
+//     console.log("CLICKED SUCCESS ")
+//     event.preventDefault()
+//     props.clicked(event.target.id)
+// }
   
+
+
   return(
     <div> 
       <form onSubmit={ buttonClicked }> 
