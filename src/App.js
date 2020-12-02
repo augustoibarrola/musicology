@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Container, Image } from 'semantic-ui-react'
+import { Container, Image, Grid, Divider } from 'semantic-ui-react'
 
 import Dropdown from './Components/Dropdown.js'
 import TrackBox from './Components/TrackBox.js'
@@ -114,21 +114,36 @@ const App = () => {
   return(
     <div> 
       <Container>
-          <div>
-            Genres: 
-            <Image src={genre.selectedGenreImg} size="medium" rounded />
-          </div>
-          <Dropdown options={genre.listOfGenresFromAPI} selectedValue={ genre.selectedGenre } changed={genreChanged}/>
-          <div> 
-            Genre's Playlists
-            <Image src={playlist.selectedPlaylistImg} size="medium" rounded />
-          </div>
-          <Dropdown options={playlist.listOfPlaylistFromAPI} selectedValue={playlist.selectedPlaylist} changed={playlistChanged}/>
 
-        <TrackBox  items={tracks.listOfTracksFromAPI} clicked={trackBoxClicked} />
-        <div>
-          { showTrack ? <Track selectedTrack={selectedTrack} /> : null }
-        </div>
+        <Grid columns={2} relaxed='very'>
+
+          <Grid.Column>
+            <div>
+              Genres: 
+              <Image src={genre.selectedGenreImg} size="medium" rounded />
+            </div>
+
+            <Dropdown options={genre.listOfGenresFromAPI} selectedValue={ genre.selectedGenre } changed={genreChanged}/>
+            
+            <div> 
+              Genre's Playlists
+              <Image src={playlist.selectedPlaylistImg} size="medium" rounded />
+            </div>
+
+            <Dropdown options={playlist.listOfPlaylistFromAPI} selectedValue={playlist.selectedPlaylist} changed={playlistChanged}/>
+          </Grid.Column> 
+
+          <Grid.Column>
+            <TrackBox  items={tracks.listOfTracksFromAPI} clicked={trackBoxClicked} />
+            
+            <div>
+              { showTrack ? <Track selectedTrack={selectedTrack} /> : null }
+            </div>
+          </Grid.Column> 
+        </Grid> 
+
+        <Divider vertical></Divider>
+
       </Container>
     </div>
 
