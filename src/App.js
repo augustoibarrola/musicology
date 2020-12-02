@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import { Container, Image } from 'semantic-ui-react'
+
 import Dropdown from './Components/Dropdown.js'
 import TrackBox from './Components/TrackBox.js'
 import Track from './Components/Track.js'
@@ -113,25 +115,27 @@ const App = () => {
 
   return(
     <div> 
-      <form onSubmit={ buttonClicked }> 
+      <Container>
+        <form onSubmit={ buttonClicked }> 
+          <div>
+            Genres: 
+            <Image src={genre.selectedGenreImg} size="medium" rounded />
+          </div>
+          <Dropdown options={genre.listOfGenresFromAPI} selectedValue={ genre.selectedGenre } changed={genreChanged}/>
+          <div> 
+            Genre's Playlists
+            <Image src={playlist.selectedPlaylistImg} size="medium" rounded />
+          </div>
+          <Dropdown options={playlist.listOfPlaylistFromAPI} selectedValue={playlist.selectedPlaylist} changed={playlistChanged}/>
+          <button type="submit" >
+            Search for Tracks
+          </button>
+        </form>
+        <TrackBox  items={tracks.listOfTracksFromAPI} clicked={trackBoxClicked} />
         <div>
-          Genres: 
-          <img className="img" src={genre.selectedGenreImg} style={{ maxHeight:'auto', maxWidth: '350px' }}/>
+          { showTrack ? <Track selectedTrack={selectedTrack} /> : null }
         </div>
-        <Dropdown options={genre.listOfGenresFromAPI} selectedValue={ genre.selectedGenre } changed={genreChanged}/>
-        <div> 
-          Genre's Playlists
-          <img className="img" src={playlist.selectedPlaylistImg} style={{ maxHeight:'auto', maxWidth: '350px' }}/>
-        </div>
-        <Dropdown options={playlist.listOfPlaylistFromAPI} selectedValue={playlist.selectedPlaylist} changed={playlistChanged}/>
-        <button type="submit" >
-          Search for Tracks
-        </button>
-      </form>
-      <TrackBox  items={tracks.listOfTracksFromAPI} clicked={trackBoxClicked} />
-      <div>
-        { showTrack ? <Track selectedTrack={selectedTrack} /> : null }
-      </div>
+      </Container>
     </div>
 
   )
