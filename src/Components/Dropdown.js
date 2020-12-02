@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+// import { Dropdown } from 'semantic-ui-react'
 
 const Dropdown = ( props ) => {
 
@@ -9,7 +10,6 @@ const Dropdown = ( props ) => {
     return(
 
         <div>
-
                 <select value={props.selectedValue} onChange={ dropdownChanged }>
                     { props.options.map( (item, index) => <option key={ index } value={ item.id } >{ item.name }</option>   ) }
                 </select>
