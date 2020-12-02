@@ -25,7 +25,7 @@ const Track = ({ selectedTrack }) => {
             <img className="img" src={album.image}  style={{ maxHeight:'auto', maxWidth: '350px' }} ></img>
             <div>
                 <h2>{album.name}</h2>
-                <h3> by <bold>{album.albumArtist}</bold> </h3>
+                <h3> by <em>{album.albumArtist}</em> </h3>
             </div>
         </div>
     )
