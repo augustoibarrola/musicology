@@ -7,7 +7,7 @@ import Track from './Components/Track.js'
 const App = () => {
   
   const [token, setToken] = useState('')
-  const [genre, setGenre] = useState({ selectedGenre: '', listOfGenresFromAPI: [] })
+  const [genre, setGenre] = useState({ selectedGenre: '', selectedGenreImg: '', listOfGenresFromAPI: [] })
   const [playlist, setPlaylist] = useState({ selectedPlaylist: '', listOfPlaylistFromAPI: [] })
   const [tracks, setTracks] = useState({ selectedTracks: '', listOfTracksFromAPI: []})
   const [showTrack, setShowTrack] = useState(false)
@@ -24,8 +24,15 @@ const App = () => {
       })
     .then(tokenResponse => {
       setToken(tokenResponse.data.access_token)
+      getPlaylists(tokenResponse)
+    })
 
-      axios('https://api.spotify.com/v1/browse/categories?locale=sv_US',{
+  }, [])
+
+
+  const getPlaylists = (tokenResponse) => {
+
+    axios('https://api.spotify.com/v1/browse/categories?locale=sv_US',{
         method: 'GET', 
         headers: {
           'Authorization' : 'Bearer ' + tokenResponse.data.access_token 
@@ -37,14 +44,17 @@ const App = () => {
           listOfGenresFromAPI: getSearchResponse.data.categories.items
         })
       })
+  }
 
-    })
-  }, [ genre.selectedGenre, process.env.REACT_APP_CLIENT_ID, process.env.REACT_APP_CLIENT_SECRET ])
+
 
   const genreChanged = (value) => {
+    let genreImg = genre.listOfGenresFromAPI.filter(g => g.id == value )
+    
 
     setGenre({
       selectedGenre: value, 
+      selectedGenreImg: genreImg[0].icons[0].url, 
       listOfGenresFromAPI: genre.listOfGenresFromAPI
     });
 
@@ -100,7 +110,12 @@ const App = () => {
   return(
     <div> 
       <form onSubmit={ buttonClicked }> 
-        Genres:
+        <div>
+          Genres: 
+          {console.log(genre)}
+          {console.log(genre.selectedGenreImg)}
+          <img src={genre.selectedGenreImg} />
+        </div>
         <Dropdown options={genre.listOfGenresFromAPI} selectedValue={ genre.selectedGenre } changed={genreChanged}/>
         Genre's Playlists
         <Dropdown options={playlist.listOfPlaylistFromAPI} selectedValue={playlist.selectedPlaylist} changed={playlistChanged}/>
