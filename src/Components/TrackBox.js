@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Track from './Track.js'
 
-const ListBox = (props) => {
+const TrackBox = (props) => {
 
     const clicked = (event) => {
         event.preventDefault()
@@ -20,4 +20,4 @@ const ListBox = (props) => {
 
 }
 
-export default ListBox
+export default TrackBox

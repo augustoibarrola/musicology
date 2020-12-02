@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import Dropdown from './Components/Dropdown.js'
-import ListBox from './Components/ListBox.js'
+import TrackBox from './Components/TrackBox.js'
 import Track from './Components/Track.js'
 
 const App = () => {
@@ -88,7 +88,7 @@ const App = () => {
     })
   }
 
-  const listboxClicked = (value) => {
+  const trackBoxClicked = (value) => {
 
 
     const track = tracks.listOfTracksFromAPI.filter(t => t.track.id == value)
@@ -108,7 +108,7 @@ const App = () => {
           Search for Tracks
         </button>
       </form>
-      <ListBox  items={tracks.listOfTracksFromAPI} clicked={listboxClicked} />
+      <TrackBox  items={tracks.listOfTracksFromAPI} clicked={trackBoxClicked} />
       <div>
         { showTrack ? <Track selectedTrack={selectedTrack} /> : null }
       </div>

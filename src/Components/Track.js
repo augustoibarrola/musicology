@@ -4,10 +4,10 @@ const Track = ({ selectedTrack }) => {
     console.log(selectedTrack[0].track)
 
     const [album, setAlbum] = useState({
-        name:'',
-        image:'',
-        albumId:'',
-        releaseDate:''
+        name: selectedTrack[0].track.album.name, 
+        image: selectedTrack[0].track.album.images[0].url,
+        albumId: selectedTrack[0].track.album.id,
+        releaseDate: selectedTrack[0].track.album.release_date
     })
 
     useEffect(() => {
@@ -17,7 +17,7 @@ const Track = ({ selectedTrack }) => {
         albumId: selectedTrack[0].track.album.id,
         releaseDate: selectedTrack[0].track.album.release_date
         })
-    }, [])
+    }, [selectedTrack])
 
     return( 
         <div>
