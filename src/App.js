@@ -8,7 +8,7 @@ const App = () => {
   
   const [token, setToken] = useState('')
   const [genre, setGenre] = useState({ selectedGenre: '', selectedGenreImg: '', listOfGenresFromAPI: [] })
-  const [playlist, setPlaylist] = useState({ selectedPlaylist: '', listOfPlaylistFromAPI: [] })
+  const [playlist, setPlaylist] = useState({ selectedPlaylist: '', selectedPlaylistImg: '', listOfPlaylistFromAPI: [] })
   const [tracks, setTracks] = useState({ selectedTracks: '', listOfTracksFromAPI: []})
   const [showTrack, setShowTrack] = useState(false)
   const [selectedTrack, setSelectedTrack] = useState('')
@@ -72,8 +72,10 @@ const App = () => {
   }
 
   const playlistChanged = (value) => {
+    let playlistImg = playlist.listOfPlaylistFromAPI.filter(p => p.id == value)
     setPlaylist({
       selectedPlaylist: value, 
+      selectedPlaylistImg: playlistImg[0].images[0].url,
       listOfPlaylistFromAPI: playlist.listOfPlaylistFromAPI
     })
   }
@@ -112,12 +114,13 @@ const App = () => {
       <form onSubmit={ buttonClicked }> 
         <div>
           Genres: 
-          {console.log(genre)}
-          {console.log(genre.selectedGenreImg)}
-          <img src={genre.selectedGenreImg} />
+          <img className="img" src={genre.selectedGenreImg} style={{ maxHeight:'auto', maxWidth: '350px' }}/>
         </div>
         <Dropdown options={genre.listOfGenresFromAPI} selectedValue={ genre.selectedGenre } changed={genreChanged}/>
-        Genre's Playlists
+        <div> 
+          Genre's Playlists
+          <img className="img" src={playlist.selectedPlaylistImg} style={{ maxHeight:'auto', maxWidth: '350px' }}/>
+        </div>
         <Dropdown options={playlist.listOfPlaylistFromAPI} selectedValue={playlist.selectedPlaylist} changed={playlistChanged}/>
         <button type="submit" >
           Search for Tracks
