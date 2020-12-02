@@ -110,13 +110,6 @@ const App = () => {
   }
 
 
-//   const clicked = (event) => {
-//     console.log("CLICKED SUCCESS ")
-//     event.preventDefault()
-//     props.clicked(event.target.id)
-// }
-  
-
 
   return(
     <div> 
