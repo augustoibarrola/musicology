@@ -115,34 +115,38 @@ const App = () => {
     <div> 
       <Container>
 
-        <Grid columns={2} relaxed='very'>
+        <Grid divided='vertically'>
+          <Grid.Row columns={2}>
+            <Grid.Column>
+              <div>
+                Genres: 
+                <Image src={genre.selectedGenreImg} size="medium" rounded />
+              </div>
 
-          <Grid.Column>
-            <div>
-              Genres: 
-              <Image src={genre.selectedGenreImg} size="medium" rounded />
-            </div>
+              <Dropdown options={genre.listOfGenresFromAPI} selectedValue={ genre.selectedGenre } changed={genreChanged}/>
+              
+              <div> 
+                Genre's Playlists
+                <Image src={playlist.selectedPlaylistImg} size="medium" rounded />
+              </div>
 
-            <Dropdown options={genre.listOfGenresFromAPI} selectedValue={ genre.selectedGenre } changed={genreChanged}/>
-            
+              <Dropdown options={playlist.listOfPlaylistFromAPI} selectedValue={playlist.selectedPlaylist} changed={playlistChanged}/>
+              
+            </Grid.Column> 
+            <Grid.Column>
+          <TrackBox  items={tracks.listOfTracksFromAPI} clicked={trackBoxClicked} />
+                
+          </Grid.Column>
+
+          </Grid.Row>
             <div> 
-              Genre's Playlists
-              <Image src={playlist.selectedPlaylistImg} size="medium" rounded />
-            </div>
-
-            <Dropdown options={playlist.listOfPlaylistFromAPI} selectedValue={playlist.selectedPlaylist} changed={playlistChanged}/>
-          </Grid.Column> 
-
-          <Grid.Column>
-            <TrackBox  items={tracks.listOfTracksFromAPI} clicked={trackBoxClicked} />
-            
-            <div>
               { showTrack ? <Track selectedTrack={selectedTrack} /> : null }
             </div>
-          </Grid.Column> 
-        </Grid> 
+          <Grid.Row>
 
-        <Divider vertical></Divider>
+          </Grid.Row>
+
+        </Grid> 
 
       </Container>
     </div>
