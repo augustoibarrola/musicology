@@ -74,16 +74,14 @@ const App = () => {
   }
 
   const playlistChanged = (value) => {
+
     let playlistImg = playlist.listOfPlaylistFromAPI.filter(p => p.id == value)
     setPlaylist({
       selectedPlaylist: value, 
       selectedPlaylistImg: playlistImg[0].images[0].url,
       listOfPlaylistFromAPI: playlist.listOfPlaylistFromAPI
     })
-  }
 
-  const buttonClicked = (event) => {
-    event.preventDefault()
 
     axios(`https://api.spotify.com/v1/playlists/${playlist.selectedPlaylist}/tracks?limit=15`, {
       method: 'GET',
@@ -100,10 +98,10 @@ const App = () => {
       })
 
     })
+
   }
 
   const trackBoxClicked = (value) => {
-
 
     const track = tracks.listOfTracksFromAPI.filter(t => t.track.id == value)
     setSelectedTrack(track)
@@ -116,7 +114,6 @@ const App = () => {
   return(
     <div> 
       <Container>
-        <form onSubmit={ buttonClicked }> 
           <div>
             Genres: 
             <Image src={genre.selectedGenreImg} size="medium" rounded />
@@ -127,10 +124,7 @@ const App = () => {
             <Image src={playlist.selectedPlaylistImg} size="medium" rounded />
           </div>
           <Dropdown options={playlist.listOfPlaylistFromAPI} selectedValue={playlist.selectedPlaylist} changed={playlistChanged}/>
-          <button type="submit" >
-            Search for Tracks
-          </button>
-        </form>
+
         <TrackBox  items={tracks.listOfTracksFromAPI} clicked={trackBoxClicked} />
         <div>
           { showTrack ? <Track selectedTrack={selectedTrack} /> : null }
