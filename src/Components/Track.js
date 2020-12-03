@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
+import {Icon} from 'semantic-ui-react'
 
-const Track = ({ selectedTrack }) => {
+const Track = ({ selectedTrack, postFavorite }) => {
 
     const [album, setAlbum] = useState({
         name: selectedTrack[0].track.album.name,
@@ -9,6 +10,7 @@ const Track = ({ selectedTrack }) => {
         albumId: selectedTrack[0].track.album.id,
         releaseDate: selectedTrack[0].track.album.release_date
     })
+    console.log(selectedTrack)
 
     useEffect(() => {
         setAlbum({
@@ -27,6 +29,7 @@ const Track = ({ selectedTrack }) => {
                 <h2>{album.name}</h2>
                 <h3> by <em>{album.albumArtist}</em> </h3>
             </div>
+            <Icon name="heart" onClick={() => postFavorite(album)}></Icon>
         </div>
     )
 }

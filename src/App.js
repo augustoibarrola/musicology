@@ -49,7 +49,6 @@ const App = () => {
   }
 
 
-
   const genreChanged = (value) => {
     let genreImg = genre.listOfGenresFromAPI.filter(g => g.id == value )
     
@@ -109,6 +108,25 @@ const App = () => {
 
   }
 
+  const  postFavorite = (album) => {
+
+    fetch('http://localhost:3000/tracks', {
+      method: 'POST', 
+      headers: {
+        'content-type': 'application/json',
+        'accepts': 'application/json'
+      }, 
+      body: JSON.stringify({
+        track_name: album.name, 
+        track_artist: album.albumArtist, 
+        track_album: album.name
+      })
+    })
+    .then(response => response.json())      
+    .then(console.log)
+
+  }
+
 
 
   return(
@@ -140,7 +158,7 @@ const App = () => {
 
           </Grid.Row>
             <div> 
-              { showTrack ? <Track selectedTrack={selectedTrack} /> : null }
+              { showTrack ? <Track selectedTrack={selectedTrack} postFavorite={postFavorite}/> : null }
             </div>
           <Grid.Row>
 
