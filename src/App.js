@@ -26,13 +26,13 @@ const App = () => {
       })
     .then(tokenResponse => {
       setToken(tokenResponse.data.access_token)
-      getPlaylists(tokenResponse)
+      getGenres(tokenResponse)
     })
 
-  }, [setPlaylist, setGenre])
+  }, [])
 
 
-  const getPlaylists = (tokenResponse) => {
+  const getGenres = (tokenResponse) => {
 
     axios('https://api.spotify.com/v1/browse/categories?locale=sv_US',{
         method: 'GET', 
@@ -91,7 +91,6 @@ const App = () => {
       }
     })
     .then(tracksResponse => {
-      console.log(tracksResponse)
       setTracks({
         selectedTracks: tracks.selectedTracks, 
         listOfTracksFromAPI: tracksResponse.data.items
