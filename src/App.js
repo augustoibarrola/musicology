@@ -29,7 +29,7 @@ const App = () => {
       getPlaylists(tokenResponse)
     })
 
-  }, [])
+  }, [setPlaylist, setGenre])
 
 
   const getPlaylists = (tokenResponse) => {
@@ -82,7 +82,7 @@ const App = () => {
     })
 
 
-    axios(`https://api.spotify.com/v1/playlists/${playlist.selectedPlaylist}/tracks?limit=15`, {
+    axios(`https://api.spotify.com/v1/playlists/${value}/tracks?limit=15`, {
       method: 'GET',
       headers: {
         'Authorization' : 'Bearer ' + token, 
@@ -91,11 +91,11 @@ const App = () => {
       }
     })
     .then(tracksResponse => {
+      console.log(tracksResponse)
       setTracks({
         selectedTracks: tracks.selectedTracks, 
         listOfTracksFromAPI: tracksResponse.data.items
       })
-
     })
 
   }
@@ -132,7 +132,6 @@ const App = () => {
   return(
     <div> 
       <Container>
-
         <Grid divided='vertically'>
           <Grid.Row columns={2}>
             <Grid.Column>
@@ -151,10 +150,10 @@ const App = () => {
               <Dropdown options={playlist.listOfPlaylistFromAPI} selectedValue={playlist.selectedPlaylist} changed={playlistChanged}/>
               
             </Grid.Column> 
+
             <Grid.Column>
-          <TrackBox  items={tracks.listOfTracksFromAPI} clicked={trackBoxClicked} />
-                
-          </Grid.Column>
+              <TrackBox  items={tracks.listOfTracksFromAPI} clicked={trackBoxClicked} />
+            </Grid.Column>
 
           </Grid.Row>
             <div> 
