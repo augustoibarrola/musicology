@@ -42,13 +42,13 @@ const Track = ({ selectedTrack, postFavorite }) => {
 
     return( 
         <div>
-            <Grid divided='vertically'>
+            <Grid divided='vertically' style={{ width: '130%' }} >
 
-                <Grid.Row columns={2}>
+                <Grid.Row columns={2} style={{display: 'flex', flexDirection: 'row-reverse'}}>
 
-                    <Grid.Column>
+                    <Grid.Column style={{paddingLeft: '93px'}}>
 
-                        <img className="img" src={album.image}  style={{ maxHeight:'auto', maxWidth: '350px' }} ></img>
+                        <img className="img" src={album.image}  style={{ maxHeight:'275px', maxWidth: '275px' }} ></img>
 
                     </Grid.Column>
 

@@ -131,15 +131,17 @@ const App = () => {
   return(
     <div> 
       <Container>
-        <Grid divided='vertically' style={{ padding: '20px' }}>
+        <Grid divided='vertically' style={{ padding: '20px', minWidth: 'max-content' }}>
           <Grid.Row columns={2} style={{ }}>
+            
             <Grid.Column style={{
               display: 'flex',
               flexDirection:  'column',
               alignItems: 'baseline',
               justifyContent:' space-around',
-              height: '770px'
-            }}>
+              height: '770px',
+              maxWidth: '400px'
+              }}>
 
               <div>
                 <Header size="Huge"> Genre </Header>
@@ -158,12 +160,12 @@ const App = () => {
             </Grid.Column> 
 
             <Grid.Column style={{padding: '35px'}}> 
-              <TrackBox  items={tracks.listOfTracksFromAPI} clicked={trackBoxClicked} />
+              <TrackBox  items={tracks.listOfTracksFromAPI} clicked={trackBoxClicked} selectedTrack={selectedTrack} postFavorite={postFavorite}/>
             </Grid.Column>
 
           </Grid.Row>
             <div> 
-              { showTrack ? <Track selectedTrack={selectedTrack} postFavorite={postFavorite}/> : null }
+              {/* { showTrack ? <Track selectedTrack={selectedTrack} postFavorite={postFavorite}/> : null } */}
             </div>
           <Grid.Row>
 
