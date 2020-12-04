@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Container, Image, Grid, Divider } from 'semantic-ui-react'
+import { Container, Image, Grid, Divider, Header } from 'semantic-ui-react'
 
 import Dropdown from './Components/Dropdown.js'
 import TrackBox from './Components/TrackBox.js'
@@ -131,26 +131,33 @@ const App = () => {
   return(
     <div> 
       <Container>
-        <Grid divided='vertically'>
-          <Grid.Row columns={2}>
-            <Grid.Column>
+        <Grid divided='vertically' style={{ padding: '20px' }}>
+          <Grid.Row columns={2} style={{ }}>
+            <Grid.Column style={{
+              display: 'flex',
+              flexDirection:  'column',
+              alignItems: 'baseline',
+              justifyContent:' space-around',
+              height: '770px'
+            }}>
+
               <div>
-                Genres: 
+                <Header size="Huge"> Genre </Header>
                 <Image src={genre.selectedGenreImg} size="medium" rounded />
               </div>
 
-              <Dropdown options={genre.listOfGenresFromAPI} selectedValue={ genre.selectedGenre } changed={genreChanged}/>
+              <Dropdown options={genre.listOfGenresFromAPI} selectedValue={ genre.selectedGenre } changed={genreChanged} fluid selection/>
               
               <div> 
-                Genre's Playlists
+              <Header size="Huge"> Playlist </Header>
                 <Image src={playlist.selectedPlaylistImg} size="medium" rounded />
               </div>
 
-              <Dropdown options={playlist.listOfPlaylistFromAPI} selectedValue={playlist.selectedPlaylist} changed={playlistChanged}/>
+              <Dropdown options={playlist.listOfPlaylistFromAPI} selectedValue={playlist.selectedPlaylist} changed={playlistChanged} fluid selection/>
               
             </Grid.Column> 
 
-            <Grid.Column>
+            <Grid.Column style={{padding: '35px'}}> 
               <TrackBox  items={tracks.listOfTracksFromAPI} clicked={trackBoxClicked} />
             </Grid.Column>
 

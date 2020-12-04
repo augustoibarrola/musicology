@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { Icon, Grid } from 'semantic-ui-react'
+import { Icon, Grid, Header } from 'semantic-ui-react'
 import { ColorExtractor } from 'react-color-extractor'
 
 const Track = ({ selectedTrack, postFavorite }) => {
@@ -43,25 +43,34 @@ const Track = ({ selectedTrack, postFavorite }) => {
     return( 
         <div>
             <Grid divided='vertically'>
+
                 <Grid.Row columns={2}>
+
                     <Grid.Column>
+
                         <img className="img" src={album.image}  style={{ maxHeight:'auto', maxWidth: '350px' }} ></img>
-                        <div>
-                            <h2>{album.name}</h2>
-                            <h3> by <em>{album.albumArtist}</em> </h3>
-                        </div>
-                        <Icon name="heart" onClick={() => postFavorite(album)}></Icon>
+
                     </Grid.Column>
 
                     <Grid.Column>
+
+                        <div>
+                            <Header size="large">{album.name}</Header>
+                            <Header size="medium"> by <em>{album.albumArtist}</em> </Header>
+                            <Icon name="heart" onClick={() => postFavorite(album)}></Icon>
+                        </div>
+
                         <div> 
                             <ColorExtractor getColors={colors => {getColors(colors)}} src={album.image} />
                             <div style={ { marginTop: '20px', display: 'flex', justifyContent: 'center' } }>
                                 {renderColors()}
                             </div>
                         </div>
+
                     </Grid.Column>
+
                 </Grid.Row>
+            
             </Grid>
         </div>
     )
