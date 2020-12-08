@@ -133,10 +133,10 @@ const App = () => {
 
   }
 
-  const spotifySearch = (event) => {
+  const spotifySearch = (event, value, searchType) => {
     event.preventDefault()
-    console.log("it worked!", event)
-    console.log(event.target)
+    console.log(value)
+    console.log(searchType)
   }
 
 

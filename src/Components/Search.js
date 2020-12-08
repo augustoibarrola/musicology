@@ -4,21 +4,22 @@ import { Input, Dropdown } from 'semantic-ui-react'
 const Search = ({ searchTypeOptions, spotifySearch }) => {
 
     const [searchType, setSearchType] = useState(searchTypeOptions[0]["value"])
-    const [placeholder, setPlaceholder] = useState('search music')
+    const [value, setValue] = useState('')
 
     const setSearchParam = (event) => {
-        setPlaceholder('search music')
-        setSearchType(event.target.value)
+        setSearchType(event.target.innerText)
     }
 
     return(
         <div>
-            <form onSubmit={ event => spotifySearch(event) } > 
+            <form onSubmit={ event => { spotifySearch(event, value, searchType) } }> 
                 <Input 
                     as="submit"
                     label={<Dropdown defaultValue={searchType} options={searchTypeOptions} onChange={event => setSearchParam(event)} />}
                     labelPosition='left'
-                    placeholder={placeholder}
+                    placeholder='search music'
+                    value={value}
+                    onChange={e => setValue(e.target.value)}
                 /> 
             </form>
         </div>
