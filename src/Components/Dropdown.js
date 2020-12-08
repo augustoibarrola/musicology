@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-// import { Dropdown } from 'semantic-ui-react'
+import { Dropdown as SDropdown } from 'semantic-ui-react'
 
 const Dropdown = ( props ) => {
 

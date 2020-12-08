@@ -44,7 +44,7 @@ const Track = ({ selectedTrack, postFavorite }) => {
         <div>
             <Grid divided='vertically' style={{ width: '130%' }} >
 
-                <Grid.Row columns={2} style={{display: 'flex', flexDirection: 'row-reverse'}}>
+                <Grid.Row columns={2} style={{display: 'flex', flexDirection: 'row-reverse', paddingTop: '40px'}}>
 
                     <Grid.Column style={{paddingLeft: '93px'}}>
 
@@ -52,8 +52,7 @@ const Track = ({ selectedTrack, postFavorite }) => {
 
                     </Grid.Column>
 
-                    <Grid.Column>
-
+                    <Grid.Column >
                         <div>
                             <Header size="large">{album.name}</Header>
                             <Header size="medium"> by <em>{album.albumArtist}</em> </Header>

@@ -5,6 +5,7 @@ import { Container, Image, Grid, Divider, Header } from 'semantic-ui-react'
 import Dropdown from './Components/Dropdown.js'
 import TrackBox from './Components/TrackBox.js'
 import Track from './Components/Track.js'
+import Search from './Components/Search.js'
 
 const App = () => {
   
@@ -14,6 +15,12 @@ const App = () => {
   const [tracks, setTracks] = useState({ selectedTracks: '', listOfTracksFromAPI: []})
   const [showTrack, setShowTrack] = useState(false)
   const [selectedTrack, setSelectedTrack] = useState('')
+
+  const searchTypeOptions = [
+    { key: 'album', text: 'album', value: 'album' },
+    { key: 'artist', text: 'artist', value: 'artist' },
+    { key: 'playlists', text: 'playlists', value: 'playlists' },
+  ]
 
   useEffect(() => {
     axios('https://accounts.spotify.com/api/token', {
@@ -126,12 +133,20 @@ const App = () => {
 
   }
 
+  const spotifySearch = (event) => {
+    event.preventDefault()
+    console.log("it worked!", event)
+    console.log(event.target)
+  }
+
+
 
 
   return(
     <div> 
       <Container>
         <Grid divided='vertically' style={{ padding: '20px', minWidth: 'max-content' }}>
+          <Search searchTypeOptions={searchTypeOptions} spotifySearch={spotifySearch} />
           <Grid.Row columns={2} style={{ }}>
             
             <Grid.Column style={{
@@ -148,26 +163,22 @@ const App = () => {
                 <Image src={genre.selectedGenreImg} size="medium" rounded />
               </div>
 
-              <Dropdown options={genre.listOfGenresFromAPI} selectedValue={ genre.selectedGenre } changed={genreChanged} fluid selection/>
+              <Dropdown options={genre.listOfGenresFromAPI} selectedValue={ genre.selectedGenre } changed={genreChanged}  selection/>
               
               <div> 
-              <Header size="Huge"> Playlist </Header>
+                <Header size="Huge"> Playlist </Header>
                 <Image src={playlist.selectedPlaylistImg} size="medium" rounded />
               </div>
 
-              <Dropdown options={playlist.listOfPlaylistFromAPI} selectedValue={playlist.selectedPlaylist} changed={playlistChanged} fluid selection/>
+              <Dropdown options={playlist.listOfPlaylistFromAPI} selectedValue={playlist.selectedPlaylist} changed={playlistChanged}  selection/>
               
             </Grid.Column> 
 
-            <Grid.Column style={{padding: '35px'}}> 
-              <TrackBox  items={tracks.listOfTracksFromAPI} clicked={trackBoxClicked} selectedTrack={selectedTrack} postFavorite={postFavorite}/>
-            </Grid.Column>
+            <Grid.Column style={{padding: '35px', paddingLeft: '95px'}}> 
 
-          </Grid.Row>
-            <div> 
-              {/* { showTrack ? <Track selectedTrack={selectedTrack} postFavorite={postFavorite}/> : null } */}
-            </div>
-          <Grid.Row>
+              <TrackBox  items={tracks.listOfTracksFromAPI} clicked={trackBoxClicked} selectedTrack={selectedTrack} postFavorite={postFavorite}/>
+            
+            </Grid.Column>
 
           </Grid.Row>
 
