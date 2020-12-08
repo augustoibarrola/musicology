@@ -12,8 +12,6 @@ const TrackBox = (props) => {
     props.clicked(event.target.id)
     }
     
-  console.log(props)
-
   return(
 
     <div>

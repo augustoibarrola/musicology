@@ -22,6 +22,10 @@ const App = () => {
     { key: 'playlists', text: 'playlists', value: 'playlists' },
   ]
 
+  // upon initiation of application (and only on initial initialization)
+  // fetch request is made to Spotify to retrieve a token which is then placed in the 
+  // 'token' variable ... 1/2
+
   useEffect(() => {
     axios('https://accounts.spotify.com/api/token', {
         headers: {
@@ -33,15 +37,11 @@ const App = () => {
       })
     .then(tokenResponse => {
       setToken(tokenResponse.data.access_token)
-      getGenres(tokenResponse)
-    })
 
-  }, [])
-
-
-  const getGenres = (tokenResponse) => {
-
-    axios('https://api.spotify.com/v1/browse/categories?locale=sv_US',{
+  // immediately after the token is set inside of 'token', another 
+  // fetch request is fired which utilizes 'token' and retrieves a set of playlists.
+  // 'genre' is then set to the return value of the second fetch request 
+      axios('https://api.spotify.com/v1/browse/categories?locale=sv_US',{
         method: 'GET', 
         headers: {
           'Authorization' : 'Bearer ' + tokenResponse.data.access_token 
@@ -49,11 +49,17 @@ const App = () => {
       })
       .then(getSearchResponse => { 
         setGenre({
-          selectedGenre: genre.selectedGenre,
+          selectedGenre: getSearchResponse.data.categories.items[0].name,
           listOfGenresFromAPI: getSearchResponse.data.categories.items
         })
       })
-  }
+
+    })
+    console.log("genre inside of useffect is fired AFTER the component initi. renders ", genre)
+  }, [])
+
+    console.log('genre fires once; nothing', genre)
+    console.log('final render of app; genre should contain something', genre)
 
 
   const genreChanged = (value) => {
@@ -135,8 +141,7 @@ const App = () => {
 
   const spotifySearch = (event, value, searchType) => {
     event.preventDefault()
-    console.log(value)
-    console.log(searchType)
+
   }
 
 
@@ -160,7 +165,7 @@ const App = () => {
 
               <div>
                 <Header size="Huge"> Genre </Header>
-                <Image src={genre.selectedGenreImg} size="medium" rounded />
+                { genre ?  <Image src={genre.selectedGenreImg} size="medium" rounded /> : null }
               </div>
 
               <Dropdown options={genre.listOfGenresFromAPI} selectedValue={ genre.selectedGenre } changed={genreChanged}  selection/>
