@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
-import { Dropdown as SDropdown } from 'semantic-ui-react'
+import { Dropdown as SDropdown, Image } from 'semantic-ui-react'
 
-const Dropdown = ( props ) => {
+const Dropdown =  ( props ) => {
+    console.log("props at dropwdown", props)
 
-   const dropdownChanged = (event) => {
+    const [albumImage, setAlbumImage] = useState('')
+
+    const dropdownChanged = (event) => {
        props.changed(event.target.value)
-   }
+    }
     
     return(
 

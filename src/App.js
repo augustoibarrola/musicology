@@ -10,7 +10,7 @@ import Search from './Components/Search.js'
 const App = () => {
   
   const [token, setToken] = useState('')
-  const [genre, setGenre] = useState({ selectedGenre: '', selectedGenreImg: '', listOfGenresFromAPI: [] })
+  const [genre, setGenre] = useState({ selectedGenre: '', selectedGenreImg: '', listOfGenresFromAPI: []})
   const [playlist, setPlaylist] = useState({ selectedPlaylist: '', selectedPlaylistImg: '', listOfPlaylistFromAPI: [] })
   const [tracks, setTracks] = useState({ selectedTracks: '', listOfTracksFromAPI: []})
   const [showTrack, setShowTrack] = useState(false)
@@ -48,18 +48,20 @@ const App = () => {
         },
       })
       .then(getSearchResponse => { 
+        console.log(getSearchResponse)
         setGenre({
           selectedGenre: getSearchResponse.data.categories.items[0].name,
+          selectedGenreImg: getSearchResponse.data.categories.items[0].icons[0].url,
           listOfGenresFromAPI: getSearchResponse.data.categories.items
         })
       })
 
     })
-    console.log("genre inside of useffect is fired AFTER the component initi. renders ", genre)
+    // console.log("genre inside of useffect is fired AFTER the component initi. renders ", genre)
   }, [])
 
-    console.log('genre fires once; nothing', genre)
-    console.log('final render of app; genre should contain something', genre)
+    // console.log('genre fires once; nothing', genre)
+    // console.log('final render of app; genre should contain something', genre)
 
 
   const genreChanged = (value) => {
@@ -168,7 +170,7 @@ const App = () => {
                 { genre ?  <Image src={genre.selectedGenreImg} size="medium" rounded /> : null }
               </div>
 
-              <Dropdown options={genre.listOfGenresFromAPI} selectedValue={ genre.selectedGenre } changed={genreChanged}  selection/>
+              <Dropdown options={genre.listOfGenresFromAPI} selectedValue={ genre.selectedGenre } changed={genreChanged} selectedGenreImg={genre.selectedGenreImg} selection/>
               
               <div> 
                 <Header size="Huge"> Playlist </Header>
