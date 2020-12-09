@@ -24,7 +24,7 @@ const App = () => {
 
   // upon initiation of application (and only on initial initialization)
   // fetch request is made to Spotify to retrieve a token which is then placed in the 
-  // 'token' variable ... 1/2
+  // 'token' variable – 
 
   useEffect(() => {
     axios('https://accounts.spotify.com/api/token', {
@@ -38,7 +38,7 @@ const App = () => {
     .then(tokenResponse => {
       setToken(tokenResponse.data.access_token)
 
-  // immediately after the token is set inside of 'token', another 
+  // (1/2) –  immediately after the token is set inside of 'token', another 
   // fetch request is fired which utilizes 'token' and retrieves a set of playlists.
   // 'genre' is then set to the return value of the second fetch request 
       axios('https://api.spotify.com/v1/browse/categories?locale=sv_US',{
@@ -48,26 +48,31 @@ const App = () => {
         },
       })
       .then(getSearchResponse => { 
-        console.log(getSearchResponse)
         setGenre({
           selectedGenre: getSearchResponse.data.categories.items[0].name,
           selectedGenreImg: getSearchResponse.data.categories.items[0].icons[0].url,
           listOfGenresFromAPI: getSearchResponse.data.categories.items
         })
+        axios(`https://api.spotify.com/v1/browse/categories/${getSearchResponse.data.categories.items[0].id}/playlists`, {
+          method: 'GET',
+          headers: { 'Authorization' : 'Bearer ' + token}
+        })
+        .then(playlistResponse => {
+          console.log(playlistResponse)
+          setPlaylist({
+            selectedPlaylist: playlistResponse.data.playlists.items[0].name,
+            selectedPlaylistImg: playlistResponse.data.playlists.items[0].images[0].url,
+            listOfPlaylistFromAPI: playlistResponse.data.playlists.items
+          })
+          console.log(playlist)
+        })
       })
-
     })
-    // console.log("genre inside of useffect is fired AFTER the component initi. renders ", genre)
   }, [])
-
-    // console.log('genre fires once; nothing', genre)
-    // console.log('final render of app; genre should contain something', genre)
-
 
   const genreChanged = (value) => {
     let genreImg = genre.listOfGenresFromAPI.filter(g => g.id == value )
     
-
     setGenre({
       selectedGenre: value, 
       selectedGenreImg: genreImg[0].icons[0].url, 
@@ -79,8 +84,10 @@ const App = () => {
       headers: { 'Authorization' : 'Bearer ' + token}
     })
     .then(playlistResponse => {
+      console.log(playlistResponse)
       setPlaylist({
         selectedPlaylist: playlist.selectedPlaylist,
+        // selectedPlaylistImg: playlistImg[0].images[0].url,
         listOfPlaylistFromAPI: playlistResponse.data.playlists.items
       })
     })
@@ -177,7 +184,7 @@ const App = () => {
                 <Image src={playlist.selectedPlaylistImg} size="medium" rounded />
               </div>
 
-              <Dropdown options={playlist.listOfPlaylistFromAPI} selectedValue={playlist.selectedPlaylist} changed={playlistChanged}  selection/>
+              <Dropdown options={playlist.listOfPlaylistFromAPI} selectedValue={playlist.selectedPlaylist} selectedGenreImg={playlist.selectedPlaylistImg} changed={playlistChanged}  selection/>
               
             </Grid.Column> 
 
