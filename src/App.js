@@ -176,7 +176,7 @@ const App = () => {
       setSearchedResults(response.data)
 
       if (searchType == 'artist') {
-        console.log("ARTISTS")
+        console.log(response.data.artists.items)
         setSearchType('artists')
         setSearchedResults({
           searchedArtists: response.data.artists.items, 
@@ -184,8 +184,8 @@ const App = () => {
         })
         setSearchedArtists(response.data.artists.items)
         
-      } else if (searchType == 'albums') {
-        console.log("ALBUMS")
+      } else {
+        console.log(response.data.albums.items)
         setSearchType('albums')
         setSearchedResults({
           searchedArtists: [],
@@ -205,9 +205,8 @@ const App = () => {
 
             <Search searchTypeOptions={searchTypeOptions} spotifySearch={spotifySearch} />
 
-            { searchedArtists ? <SearchResults searchResults={searchedArtists} kind={"artists"}/> : <SearchResults searchResults={searchedAlbums} kind={"albums"} />  }
-            {console.log(searchedResults)}
-
+            { !searchedResults == [] ? <SearchResults searchResults={searchedResults} searchType={searchType}/> : null }
+          
           </Grid.Row>
 
           <Grid.Row columns={2} style={{ }}>

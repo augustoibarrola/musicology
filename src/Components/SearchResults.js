@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { Image } from 'semantic-ui-react'
+import TrackThumbnail from './TrackThumbnail'
 
-const SearchResults = ({ searchResults, kind }) => {
-    // console.log(searchResults)
-    // console.log(kind)
+const SearchResults = ({ searchResults, searchType }) => {
+    console.log(searchResults)
+    console.log(searchType)
 
 
     return(
         <div>
-             {/* <Image.Group >
+            <Image.Group >
                 {
-                        searchResults.map((item, index) => {
-                        return <TrackThumbnail index={  } key={  } id={  } name={ } image={ } />
-                    })
-                }
-            </Image.Group>   */}
+                    
+                } 
+            </Image.Group>  
             
         </div>
     )
