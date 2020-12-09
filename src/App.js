@@ -1,21 +1,28 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Container, Image, Grid, Divider } from 'semantic-ui-react'
+import { Container, Image, Grid, Divider, Header } from 'semantic-ui-react'
 
 import Dropdown from './Components/Dropdown.js'
 import TrackBox from './Components/TrackBox.js'
 import Track from './Components/Track.js'
+import Search from './Components/Search.js'
 
 const App = () => {
   
   const [token, setToken] = useState('')
-  const [genre, setGenre] = useState({ selectedGenre: '', selectedGenreImg: '', listOfGenresFromAPI: [] })
+  const [genre, setGenre] = useState({ selectedGenre: '', selectedGenreImg: '', listOfGenresFromAPI: []})
   const [playlist, setPlaylist] = useState({ selectedPlaylist: '', selectedPlaylistImg: '', listOfPlaylistFromAPI: [] })
   const [tracks, setTracks] = useState({ selectedTracks: '', listOfTracksFromAPI: []})
   const [showTrack, setShowTrack] = useState(false)
   const [selectedTrack, setSelectedTrack] = useState('')
 
-  useEffect(() => {
+  const searchTypeOptions = [
+    { key: 'album', text: 'album', value: 'album' },
+    { key: 'artist', text: 'artist', value: 'artist' },
+    { key: 'playlists', text: 'playlists', value: 'playlists' },
+  ]
+  
+  useEffect(() => { 
     axios('https://accounts.spotify.com/api/token', {
         headers: {
           'Content-Type' : 'application/x-www-form-urlencoded',
@@ -26,15 +33,8 @@ const App = () => {
       })
     .then(tokenResponse => {
       setToken(tokenResponse.data.access_token)
-      getPlaylists(tokenResponse)
-    })
 
-  }, [])
-
-
-  const getPlaylists = (tokenResponse) => {
-
-    axios('https://api.spotify.com/v1/browse/categories?locale=sv_US',{
+      axios('https://api.spotify.com/v1/browse/categories?locale=sv_US',{
         method: 'GET', 
         headers: {
           'Authorization' : 'Bearer ' + tokenResponse.data.access_token 
@@ -42,18 +42,42 @@ const App = () => {
       })
       .then(getSearchResponse => { 
         setGenre({
-          selectedGenre: genre.selectedGenre,
+          selectedGenre: getSearchResponse.data.categories.items[0].name,
+          selectedGenreImg: getSearchResponse.data.categories.items[0].icons[0].url,
           listOfGenresFromAPI: getSearchResponse.data.categories.items
         })
+        axios(`https://api.spotify.com/v1/browse/categories/${getSearchResponse.data.categories.items[0].id}/playlists`, {
+          method: 'GET',
+          headers: { 'Authorization' : 'Bearer ' + tokenResponse.data.access_token}
+        })
+        .then(playlistResponse => {
+          setPlaylist({
+            selectedPlaylist: playlistResponse.data.playlists.items[0].name,
+            selectedPlaylistImg: playlistResponse.data.playlists.items[0].images[0].url,
+            listOfPlaylistFromAPI: playlistResponse.data.playlists.items
+          })
+          axios(`https:api.spotify.com/v1/playlists/${playlistResponse.data.playlists.items[0].id}/tracks?limit=15`, {
+            method: 'GET',
+            headers: {
+              'Authorization' : 'Bearer ' + tokenResponse.data.access_token, 
+              'Content-Type' : 'application/json',
+              'Accept' : 'application/json'
+            }
+          })
+          .then(tracksResponse => {
+            setTracks({
+              selectedTracks: tracks.selectedTracks, 
+              listOfTracksFromAPI: tracksResponse.data.items
+            })
+          })   
+        })
       })
-  }
-
-
+    })
+  }, [])
 
   const genreChanged = (value) => {
     let genreImg = genre.listOfGenresFromAPI.filter(g => g.id == value )
     
-
     setGenre({
       selectedGenre: value, 
       selectedGenreImg: genreImg[0].icons[0].url, 
@@ -66,7 +90,8 @@ const App = () => {
     })
     .then(playlistResponse => {
       setPlaylist({
-        selectedPlaylist: playlist.selectedPlaylist,
+        selectedPlaylist: playlistResponse.data.playlists.items[0].name,
+        selectedPlaylistImg: playlistResponse.data.playlists.items[0].images[0].url,
         listOfPlaylistFromAPI: playlistResponse.data.playlists.items
       })
     })
@@ -76,6 +101,7 @@ const App = () => {
   const playlistChanged = (value) => {
 
     let playlistImg = playlist.listOfPlaylistFromAPI.filter(p => p.id == value)
+    
     setPlaylist({
       selectedPlaylist: value, 
       selectedPlaylistImg: playlistImg[0].images[0].url,
@@ -83,7 +109,7 @@ const App = () => {
     })
 
 
-    axios(`https://api.spotify.com/v1/playlists/${playlist.selectedPlaylist}/tracks?limit=15`, {
+    axios(`https://api.spotify.com/v1/playlists/${value}/tracks?limit=15`, {
       method: 'GET',
       headers: {
         'Authorization' : 'Bearer ' + token, 
@@ -96,7 +122,6 @@ const App = () => {
         selectedTracks: tracks.selectedTracks, 
         listOfTracksFromAPI: tracksResponse.data.items
       })
-
     })
 
   }
@@ -109,40 +134,84 @@ const App = () => {
 
   }
 
+  const postFavorite = (album) => {
+
+    fetch('http://localhost:3000/tracks', {
+      method: 'POST', 
+      headers: {
+        'content-type': 'application/json',
+        'accepts': 'application/json'
+      }, 
+      body: JSON.stringify({
+        track_name: album.name, 
+        track_artist: album.albumArtist, 
+        track_album: album.name
+      })
+    })
+    .then(response => response.json())      
+    .then(console.log)
+
+  }
+
+  const spotifySearch = (event, value, searchType) => {
+    console.log("searching...")
+    event.preventDefault()
+  
+
+    axios(`	https://api.spotify.com/v1/search?q=${value}&type=${searchType}&limit=3`, {
+      method: 'GET', 
+      headers: { 
+        'Authorization' : 'Bearer ' + token, 
+        'Content-Type' : 'application/json',
+        'Accept' : 'application/json'
+      }
+    })
+    .then(response => console.log(response))
+
+  }
 
 
   return(
     <div> 
       <Container>
-
-        <Grid columns={2} relaxed='very'>
-
-          <Grid.Column>
-            <div>
-              Genres: 
-              <Image src={genre.selectedGenreImg} size="medium" rounded />
-            </div>
-
-            <Dropdown options={genre.listOfGenresFromAPI} selectedValue={ genre.selectedGenre } changed={genreChanged}/>
+        <Grid divided='vertically' style={{ padding: '20px', minWidth: 'max-content' }}>
+          <Search searchTypeOptions={searchTypeOptions} spotifySearch={spotifySearch} />
+          <Grid.Row columns={2} style={{ }}>
             
-            <div> 
-              Genre's Playlists
-              <Image src={playlist.selectedPlaylistImg} size="medium" rounded />
-            </div>
+            <Grid.Column style={{
+              display: 'flex',
+              flexDirection:  'column',
+              alignItems: 'baseline',
+              justifyContent:' space-around',
+              height: '770px',
+              maxWidth: '400px'
+              }}>
 
-            <Dropdown options={playlist.listOfPlaylistFromAPI} selectedValue={playlist.selectedPlaylist} changed={playlistChanged}/>
-          </Grid.Column> 
+              <div>
+                <Header size="Huge"> Genre </Header>
+                { genre ?  <Image src={genre.selectedGenreImg} size="medium" rounded /> : null }
+              </div>
 
-          <Grid.Column>
-            <TrackBox  items={tracks.listOfTracksFromAPI} clicked={trackBoxClicked} />
+              <Dropdown options={genre.listOfGenresFromAPI} selectedValue={ genre.selectedGenre } changed={genreChanged} selectedGenreImg={genre.selectedGenreImg} selection/>
+              
+              <div> 
+                <Header size="Huge"> Playlist </Header>
+                <Image src={playlist.selectedPlaylistImg} size="medium" rounded />
+              </div>
+
+              <Dropdown options={playlist.listOfPlaylistFromAPI} selectedValue={playlist.selectedPlaylist} selectedGenreImg={playlist.selectedPlaylistImg} changed={playlistChanged}  selection/>
+              
+            </Grid.Column> 
+
+            <Grid.Column style={{padding: '35px', paddingLeft: '95px'}}> 
+
+              <TrackBox  items={tracks.listOfTracksFromAPI} clicked={trackBoxClicked} selectedTrack={selectedTrack} postFavorite={postFavorite}/>
             
-            <div>
-              { showTrack ? <Track selectedTrack={selectedTrack} /> : null }
-            </div>
-          </Grid.Column> 
+            </Grid.Column>
+
+          </Grid.Row>
+
         </Grid> 
-
-        <Divider vertical></Divider>
 
       </Container>
     </div>
