@@ -25,8 +25,7 @@ const App = () => {
   // upon initiation of application (and only on initial initialization)
   // fetch request is made to Spotify to retrieve a token which is then placed in the 
   // 'token' variable – 
-
-  useEffect(() => {
+  useEffect(() => { 
     axios('https://accounts.spotify.com/api/token', {
         headers: {
           'Content-Type' : 'application/x-www-form-urlencoded',
@@ -38,9 +37,9 @@ const App = () => {
     .then(tokenResponse => {
       setToken(tokenResponse.data.access_token)
 
-  // (1/2) –  immediately after the token is set inside of 'token', another 
-  // fetch request is fired which utilizes 'token' and retrieves a set of playlists.
-  // 'genre' is then set to the return value of the second fetch request 
+      // (1/2) –  immediately after the token is set inside of 'token', another 
+      // fetch request is fired which utilizes 'token' and retrieves a set of playlists.
+      // 'genre' is then set to the return value of the second fetch request 
       axios('https://api.spotify.com/v1/browse/categories?locale=sv_US',{
         method: 'GET', 
         headers: {
@@ -55,7 +54,7 @@ const App = () => {
         })
         axios(`https://api.spotify.com/v1/browse/categories/${getSearchResponse.data.categories.items[0].id}/playlists`, {
           method: 'GET',
-          headers: { 'Authorization' : 'Bearer ' + token}
+          headers: { 'Authorization' : 'Bearer ' + tokenResponse.data.access_token}
         })
         .then(playlistResponse => {
           console.log(playlistResponse)
@@ -64,7 +63,25 @@ const App = () => {
             selectedPlaylistImg: playlistResponse.data.playlists.items[0].images[0].url,
             listOfPlaylistFromAPI: playlistResponse.data.playlists.items
           })
-          console.log(playlist)
+
+          console.log(playlistResponse.data.playlists.items[0].id)
+
+           axios(`https:api.spotify.com/v1/playlists/${playlistResponse.data.playlists.items[0].id}/tracks?limit=15`, {
+             method: 'GET',
+             headers: {
+               'Authorization' : 'Bearer ' + tokenResponse.data.access_token, 
+               'Content-Type' : 'application/json',
+               'Accept' : 'application/json'
+             }
+           })
+           .then(tracksResponse => {
+             console.log(tracksResponse)
+              setTracks({
+                selectedTracks: tracks.selectedTracks, 
+                listOfTracksFromAPI: tracksResponse.data.items
+              })
+           })
+          
         })
       })
     })
@@ -96,8 +113,7 @@ const App = () => {
   const playlistChanged = (value) => {
 
     let playlistImg = playlist.listOfPlaylistFromAPI.filter(p => p.id == value)
-    console.log(playlistImg[0].images[0].url,)
-
+    
     setPlaylist({
       selectedPlaylist: value, 
       selectedPlaylistImg: playlistImg[0].images[0].url,
@@ -130,7 +146,7 @@ const App = () => {
 
   }
 
-  const  postFavorite = (album) => {
+  const postFavorite = (album) => {
 
     fetch('http://localhost:3000/tracks', {
       method: 'POST', 
