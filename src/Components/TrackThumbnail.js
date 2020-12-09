@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Divider, Image } from 'semantic-ui-react'
+import { Image } from 'semantic-ui-react'
 
 const TrackThumbnail = ({index, id, name, clicked, image}) => {
     return(

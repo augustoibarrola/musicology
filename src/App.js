@@ -17,7 +17,11 @@ const App = () => {
   const [showTrack, setShowTrack] = useState(false)
   const [selectedTrack, setSelectedTrack] = useState('')
 
+
+  const [searchType, setSearchType] = useState('')
   const [searchedResults, setSearchedResults] = useState({ searchedArtists: [], searchedAlbums: [] })
+  const [searchedArtists, setSearchedArtists] = useState([])
+  const [searchedAlbums, setSearchedAlbums] = useState([])
 
   const searchTypeOptions = [
     { key: 'album', text: 'album', value: 'album' },
@@ -157,7 +161,6 @@ const App = () => {
   }
 
   const spotifySearch = (event, value, searchType) => {
-    console.log("searching...")
     event.preventDefault()
 
     axios(`	https://api.spotify.com/v1/search?q=${value}&type=${searchType}&limit=5`, {
@@ -169,28 +172,28 @@ const App = () => {
       }
     })
     .then(response => {
-      console.log(response)
 
       setSearchedResults(response.data)
 
       if (searchType == 'artist') {
+        console.log("ARTISTS")
+        setSearchType('artists')
         setSearchedResults({
           searchedArtists: response.data.artists.items, 
           searchedAlbums: []
         })
-      } else {
+        setSearchedArtists(response.data.artists.items)
+        
+      } else if (searchType == 'albums') {
+        console.log("ALBUMS")
+        setSearchType('albums')
         setSearchedResults({
           searchedArtists: [],
           searchedAlbums: response.data.albums.items
         })
+        setSearchedAlbums(response.data.albums.items)
       }
-      // when searchtype is ALBUM => 
-      // response.data.albums.items
-
-      // when searchtype is ARTISTS => 
-      // setSearchedArtists(response.data.artists.items)
     })
-
   }
 
 
@@ -202,7 +205,8 @@ const App = () => {
 
             <Search searchTypeOptions={searchTypeOptions} spotifySearch={spotifySearch} />
 
-            <SearchResults searchResults={searchedResults} />
+            { searchedArtists ? <SearchResults searchResults={searchedArtists} kind={"artists"}/> : <SearchResults searchResults={searchedAlbums} kind={"albums"} />  }
+            {console.log(searchedResults)}
 
           </Grid.Row>
 
