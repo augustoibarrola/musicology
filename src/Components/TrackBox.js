@@ -19,7 +19,7 @@ const TrackBox = (props) => {
             <Image.Group style={{ width: '900px' }}>
                 {
                     props.items.map((item, index) => {
-                        return <TrackThumbnail index={ index } id={ item.track.id } name={item.track.name} clicked={ clicked } image={item.track.album.images[1].url} />
+                        return <TrackThumbnail index={ index } key={ item.track.id } id={ item.track.id } name={item.track.name} clicked={ clicked } image={item.track.album.images[1].url} />
                     })
                 }
             </Image.Group>  

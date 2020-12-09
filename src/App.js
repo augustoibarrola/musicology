@@ -6,6 +6,7 @@ import Dropdown from './Components/Dropdown.js'
 import TrackBox from './Components/TrackBox.js'
 import Track from './Components/Track.js'
 import Search from './Components/Search.js'
+import SearchResults from './Components/SearchResults.js'
 
 const App = () => {
   
@@ -16,12 +17,14 @@ const App = () => {
   const [showTrack, setShowTrack] = useState(false)
   const [selectedTrack, setSelectedTrack] = useState('')
 
+  const [searchedResults, setSearchedResults] = useState({ searchedArtists: [], searchedAlbums: [] })
+
   const searchTypeOptions = [
     { key: 'album', text: 'album', value: 'album' },
     { key: 'artist', text: 'artist', value: 'artist' },
-    { key: 'playlists', text: 'playlists', value: 'playlists' },
+    // { key: 'playlists', text: 'playlists', value: 'playlists' },
   ]
-  
+
   useEffect(() => { 
     axios('https://accounts.spotify.com/api/token', {
         headers: {
@@ -156,9 +159,8 @@ const App = () => {
   const spotifySearch = (event, value, searchType) => {
     console.log("searching...")
     event.preventDefault()
-  
 
-    axios(`	https://api.spotify.com/v1/search?q=${value}&type=${searchType}&limit=3`, {
+    axios(`	https://api.spotify.com/v1/search?q=${value}&type=${searchType}&limit=5`, {
       method: 'GET', 
       headers: { 
         'Authorization' : 'Bearer ' + token, 
@@ -166,7 +168,28 @@ const App = () => {
         'Accept' : 'application/json'
       }
     })
-    .then(response => console.log(response))
+    .then(response => {
+      console.log(response)
+
+      setSearchedResults(response.data)
+
+      if (searchType == 'artist') {
+        setSearchedResults({
+          searchedArtists: response.data.artists.items, 
+          searchedAlbums: []
+        })
+      } else {
+        setSearchedResults({
+          searchedArtists: [],
+          searchedAlbums: response.data.albums.items
+        })
+      }
+      // when searchtype is ALBUM => 
+      // response.data.albums.items
+
+      // when searchtype is ARTISTS => 
+      // setSearchedArtists(response.data.artists.items)
+    })
 
   }
 
@@ -175,7 +198,14 @@ const App = () => {
     <div> 
       <Container>
         <Grid divided='vertically' style={{ padding: '20px', minWidth: 'max-content' }}>
-          <Search searchTypeOptions={searchTypeOptions} spotifySearch={spotifySearch} />
+          <Grid.Row>
+
+            <Search searchTypeOptions={searchTypeOptions} spotifySearch={spotifySearch} />
+
+            <SearchResults searchResults={searchedResults} />
+
+          </Grid.Row>
+
           <Grid.Row columns={2} style={{ }}>
             
             <Grid.Column style={{
@@ -188,14 +218,14 @@ const App = () => {
               }}>
 
               <div>
-                <Header size="Huge"> Genre </Header>
+                <Header size="huge"> Genre </Header>
                 { genre ?  <Image src={genre.selectedGenreImg} size="medium" rounded /> : null }
               </div>
 
               <Dropdown options={genre.listOfGenresFromAPI} selectedValue={ genre.selectedGenre } changed={genreChanged} selectedGenreImg={genre.selectedGenreImg} selection/>
               
               <div> 
-                <Header size="Huge"> Playlist </Header>
+                <Header size="huge"> Playlist </Header>
                 <Image src={playlist.selectedPlaylistImg} size="medium" rounded />
               </div>
 
