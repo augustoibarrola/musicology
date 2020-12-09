@@ -84,10 +84,9 @@ const App = () => {
       headers: { 'Authorization' : 'Bearer ' + token}
     })
     .then(playlistResponse => {
-      console.log(playlistResponse)
       setPlaylist({
-        selectedPlaylist: playlist.selectedPlaylist,
-        // selectedPlaylistImg: playlistImg[0].images[0].url,
+        selectedPlaylist: playlistResponse.data.playlists.items[0].name,
+        selectedPlaylistImg: playlistResponse.data.playlists.items[0].images[0].url,
         listOfPlaylistFromAPI: playlistResponse.data.playlists.items
       })
     })
@@ -97,6 +96,8 @@ const App = () => {
   const playlistChanged = (value) => {
 
     let playlistImg = playlist.listOfPlaylistFromAPI.filter(p => p.id == value)
+    console.log(playlistImg[0].images[0].url,)
+
     setPlaylist({
       selectedPlaylist: value, 
       selectedPlaylistImg: playlistImg[0].images[0].url,
