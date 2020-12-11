@@ -7,6 +7,7 @@ import TrackBox from './Components/TrackBox.js'
 import Track from './Components/Track.js'
 import Search from './Components/Search.js'
 import SearchResults from './Components/SearchResults.js'
+import SearchedResults from './Components/SearchedResults.js'
 
 const App = () => {
   
@@ -19,7 +20,7 @@ const App = () => {
 
 
   const [searchType, setSearchType] = useState('')
-  const [searchedResults, setSearchedResults] = useState({ searchedArtists: [], searchedAlbums: [] })
+  const [searchedResults, setSearchedResults] = useState([])
   const [searchedArtists, setSearchedArtists] = useState([])
   const [searchedAlbums, setSearchedAlbums] = useState([])
 
@@ -163,6 +164,7 @@ const App = () => {
   const spotifySearch = (event, value, searchType) => {
     event.preventDefault()
 
+
     axios(`	https://api.spotify.com/v1/search?q=${value}&type=${searchType}&limit=5`, {
       method: 'GET', 
       headers: { 
@@ -172,28 +174,31 @@ const App = () => {
       }
     })
     .then(response => {
-
       setSearchedResults(response.data)
 
       if (searchType == 'artist') {
-        console.log(response.data.artists.items)
+        console.log(" artist  => ", response.data.artists.items)
         setSearchType('artists')
-        setSearchedResults({
-          searchedArtists: response.data.artists.items, 
-          searchedAlbums: []
-        })
-        setSearchedArtists(response.data.artists.items)
+        setSearchedResults(response.data.artists.items)
+        // setSearchedArtists(response.data.artists.items)
         
       } else {
-        console.log(response.data.albums.items)
+        console.log(" album  => ", response.data.albums.items)
         setSearchType('albums')
-        setSearchedResults({
-          searchedArtists: [],
-          searchedAlbums: response.data.albums.items
-        })
-        setSearchedAlbums(response.data.albums.items)
+        setSearchedResults(response.data.albums.items)
+        // setSearchedAlbums(response.data.albums.items)
       }
     })
+  }
+
+  const testOne = () => {
+    if(searchType == 'artist') {
+      console.log('1')
+    } else if(searchType == 'album') {
+      console.log('2')
+    } else {
+      console.log("set type is niether artist nor album")
+    }
   }
 
 
@@ -205,7 +210,7 @@ const App = () => {
 
             <Search searchTypeOptions={searchTypeOptions} spotifySearch={spotifySearch} />
 
-            { !searchedResults == [] ? <SearchResults searchResults={searchedResults} searchType={searchType}/> : null }
+            <SearchedResults  items={searchedResults} />
           
           </Grid.Row>
 

@@ -3,8 +3,8 @@ import { Image } from 'semantic-ui-react'
 import TrackThumbnail from './TrackThumbnail'
 
 const SearchResults = ({ searchResults, searchType }) => {
-    console.log(searchResults)
-    console.log(searchType)
+    // console.log(searchResults)
+    // console.log(searchType)
 
 
     return(

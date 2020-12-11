@@ -5,6 +5,7 @@ import Track from './Track.js'
 import TrackThumbnail from './TrackThumbnail.js'
 
 const TrackBox = (props) => {
+    // console.log(props)
 
 
     const clicked = (event) => {
