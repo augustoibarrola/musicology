@@ -174,17 +174,17 @@ const App = () => {
       }
     })
     .then(response => {
-      setSearchedResults(response.data)
+      // setSearchedResults(response.data)
 
       if (searchType == 'artist') {
         console.log(" artist  => ", response.data.artists.items)
-        setSearchType('artists')
+        // setSearchType('artists')
         setSearchedResults(response.data.artists.items)
         // setSearchedArtists(response.data.artists.items)
         
       } else {
         console.log(" album  => ", response.data.albums.items)
-        setSearchType('albums')
+        // setSearchType('albums')
         setSearchedResults(response.data.albums.items)
         // setSearchedAlbums(response.data.albums.items)
       }
@@ -210,7 +210,7 @@ const App = () => {
 
             <Search searchTypeOptions={searchTypeOptions} spotifySearch={spotifySearch} />
 
-            <SearchedResults  items={searchedResults} />
+            { !searchedResults == [] ? <SearchedResults  items={searchedResults} />  : null }
           
           </Grid.Row>
 

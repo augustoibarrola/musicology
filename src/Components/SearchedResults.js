@@ -5,9 +5,19 @@ import Track from './Track.js'
 import TrackThumbnail from './TrackThumbnail.js'
 
 function SearchedResults ( props ) {
-    console.log(props)
+    // console.log(props.items)
+    
 
+     if(!props.items == []) {
+          console.log(props.items)
+         for(const item of props.items) {
+            if (item.images[1].url == undefined ){
+                props.items.splice(props.item.index, 1)
+            } 
+         }
+     }
 
+     console.log(props.item)
 
     // const clicked = (event) => {
     // event.preventDefault()
@@ -20,9 +30,11 @@ function SearchedResults ( props ) {
         <div> 
             <Image.Group style={{ width: '900px' }}>
                 {
-                    // items.map((item, index) => {
-                    //     return <TrackThumbnail index={ index } key={ item.id } id={ item.id } name={item.name} image={item.images[1].url} />
-                    // })
+                     props.items.map((item, index) => {
+                         if ( item.images[1].url !== []) {
+                             return <TrackThumbnail index={ index } key={ item.id } id={ item.id } name={item.name} image={item.images[1].url} />
+                         } 
+                     })
                 }
             </Image.Group>  
         </div>
