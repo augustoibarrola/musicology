@@ -1,47 +1,45 @@
 import React, { useState, useEffect } from 'react'
 import { Image } from 'semantic-ui-react'
 import Track from './Track.js'
-
 import TrackThumbnail from './TrackThumbnail.js'
+import SearchedTrack from './SearchedTrack.js'
 
-function SearchedResults ( props ) {
-    // console.log(props.items)
+const SearchedResults = ( props ) => {
+    console.log(props)
     
 
      if(!props.items == []) {
-          console.log(props.items)
          for(const item of props.items) {
-            if (item.images[1].url == undefined ){
+            if (item.images[1].url === undefined ){
                 props.items.splice(props.item.index, 1)
             } 
          }
      }
 
-     console.log(props.item)
-
-    // const clicked = (event) => {
-    // event.preventDefault()
-    // props.clicked(event.target.id)
-    // }
+     const clicked = (event) => {
+         console.log(event.target.id)
+        event.preventDefault()
+        props.clicked(event.target.id)
+    }
     
-  return(
+    return(
 
-    <div>
-        <div> 
-            <Image.Group style={{ width: '900px' }}>
-                {
-                     props.items.map((item, index) => {
-                         if ( item.images[1].url !== []) {
-                             return <TrackThumbnail index={ index } key={ item.id } id={ item.id } name={item.name} image={item.images[1].url} />
-                         } 
-                     })
-                }
-            </Image.Group>  
+        <div>
+            <div> 
+                <Image.Group style={{ width: '900px' }}>
+                    {
+                        props.items.map((item, index) => {
+                            if ( item.images[1].url !== []) {
+                                return <TrackThumbnail index={ index } key={ item.id } id={ item.id } name={item.name} clicked={ clicked } image={item.images[1].url} />
+                            } 
+                        })
+                    }
+                </Image.Group>  
+            </div>
+
+            {props.selectedTrack ? <SearchedTrack selectedTrack={props.selectedTrack} postFavorite={props.postFavorite}/> : null } 
+
         </div>
-
-        {/* {props.selectedTrack ? <Track selectedTrack={props.selectedTrack} postFavorite={props.postFavorite}/> : null } */}
-
-    </div>
 
     )
 

@@ -135,11 +135,22 @@ const App = () => {
   }
 
   const trackBoxClicked = (value) => {
+    console.log(value)
+    console.log(tracks.listOfTracksFromAPI.filter(t => t.track.id == value))
 
     const track = tracks.listOfTracksFromAPI.filter(t => t.track.id == value)
     setSelectedTrack(track)
     setShowTrack(true)
 
+  }
+
+  const searchedTrackClicked = (value) => {
+    console.log(value)
+    console.log(searchedResults)
+
+    // const track = searchedResults.filter(t => t.track.id == value)
+    // setSelectedTrack(track)
+    setShowTrack(true)
   }
 
   const postFavorite = (album) => {
@@ -181,12 +192,20 @@ const App = () => {
         // setSearchType('artists')
         setSearchedResults(response.data.artists.items)
         // setSearchedArtists(response.data.artists.items)
+        // setTracks({
+        //   selectedTracks: tracks.selectedTracks, 
+        //   listOfTracksFromAPI: response.data.artists.items
+        // })
         
       } else {
         console.log(" album  => ", response.data.albums.items)
         // setSearchType('albums')
         setSearchedResults(response.data.albums.items)
         // setSearchedAlbums(response.data.albums.items)
+        // setTracks({
+        //   selectedTracks: tracks.selectedTracks, 
+        //   listOfTracksFromAPI: response.data.albums.items
+        // })
       }
     })
   }
@@ -210,7 +229,9 @@ const App = () => {
 
             <Search searchTypeOptions={searchTypeOptions} spotifySearch={spotifySearch} />
 
-            { !searchedResults == [] ? <SearchedResults  items={searchedResults} />  : null }
+            { !searchedResults == [] ? <SearchedResults  items={searchedResults} clicked={searchedTrackClicked} selectedTrack={selectedTrack} />   : null }
+{/* 
+            { selectedTrack ? <Track selectedTrack={selectedTrack} postFavorite={postFavorite}/> : null } */}
           
           </Grid.Row>
 

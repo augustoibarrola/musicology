@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Image } from 'semantic-ui-react'
 import Track from './Track.js'
-
 import TrackThumbnail from './TrackThumbnail.js'
 
 const TrackBox = (props) => {
@@ -9,6 +8,7 @@ const TrackBox = (props) => {
 
 
     const clicked = (event) => {
+        
     event.preventDefault()
     props.clicked(event.target.id)
     }
