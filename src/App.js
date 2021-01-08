@@ -18,11 +18,11 @@ const App = () => {
   const [showTrack, setShowTrack] = useState(false)
   const [selectedTrack, setSelectedTrack] = useState('')
 
-
   const [searchType, setSearchType] = useState('')
   const [searchedResults, setSearchedResults] = useState([])
   const [searchedArtists, setSearchedArtists] = useState([])
   const [searchedAlbums, setSearchedAlbums] = useState([])
+  const [selectedSearchedTrack, setSelectedSearchedTrack] = useState([])
 
   const searchTypeOptions = [
     { key: 'album', text: 'album', value: 'album' },
@@ -144,13 +144,11 @@ const App = () => {
 
   }
 
-  const searchedTrackClicked = (value) => {
-    console.log(value)
-    console.log(searchedResults)
+  const searchedTrackClicked = (name) => {
 
-    // const track = searchedResults.filter(t => t.track.id == value)
-    // setSelectedTrack(track)
-    setShowTrack(true)
+    const track = searchedResults.filter(t => t.name == name)
+    setSelectedSearchedTrack(track)
+    // setShowTrack(true)
   }
 
   const postFavorite = (album) => {
@@ -175,7 +173,6 @@ const App = () => {
   const spotifySearch = (event, value, searchType) => {
     event.preventDefault()
 
-
     axios(`	https://api.spotify.com/v1/search?q=${value}&type=${searchType}&limit=5`, {
       method: 'GET', 
       headers: { 
@@ -185,40 +182,30 @@ const App = () => {
       }
     })
     .then(response => {
-      // setSearchedResults(response.data)
-
-      if (searchType == 'artist') {
-        console.log(" artist  => ", response.data.artists.items)
-        // setSearchType('artists')
-        setSearchedResults(response.data.artists.items)
-        // setSearchedArtists(response.data.artists.items)
-        // setTracks({
-        //   selectedTracks: tracks.selectedTracks, 
-        //   listOfTracksFromAPI: response.data.artists.items
-        // })
+      console.log(response)
+      // if (searchType == 'artist') {
+      //   console.log(" artist  => ", response.data.artists.items)
+      //   // setSearchType('artists')
+      //   setSearchedResults(response.data.artists.items)
+      //   // setSearchedArtists(response.data.artists.items)
+      //   // setTracks({
+      //   //   selectedTracks: tracks.selectedTracks, 
+      //   //   listOfTracksFromAPI: response.data.artists.items
+      //   // })
         
-      } else {
-        console.log(" album  => ", response.data.albums.items)
-        // setSearchType('albums')
-        setSearchedResults(response.data.albums.items)
-        // setSearchedAlbums(response.data.albums.items)
-        // setTracks({
-        //   selectedTracks: tracks.selectedTracks, 
-        //   listOfTracksFromAPI: response.data.albums.items
-        // })
-      }
+      // } else {
+      //   console.log(" album  => ", response.data.albums.items)
+      //   // setSearchType('albums')
+      //   setSearchedResults(response.data.albums.items)
+      //   // setSearchedAlbums(response.data.albums.items)
+      //   // setTracks({
+      //   //   selectedTracks: tracks.selectedTracks, 
+      //   //   listOfTracksFromAPI: response.data.albums.items
+      //   // })
+      // }
     })
   }
 
-  const testOne = () => {
-    if(searchType == 'artist') {
-      console.log('1')
-    } else if(searchType == 'album') {
-      console.log('2')
-    } else {
-      console.log("set type is niether artist nor album")
-    }
-  }
 
 
   return(
@@ -229,7 +216,7 @@ const App = () => {
 
             <Search searchTypeOptions={searchTypeOptions} spotifySearch={spotifySearch} />
 
-            { !searchedResults == [] ? <SearchedResults  items={searchedResults} clicked={searchedTrackClicked} selectedTrack={selectedTrack} />   : null }
+            { !searchedResults == [] ? <SearchedResults  items={searchedResults} clicked={searchedTrackClicked} selectedTrack={selectedSearchedTrack} postFavorite={postFavorite}/>   : null }
 {/* 
             { selectedTrack ? <Track selectedTrack={selectedTrack} postFavorite={postFavorite}/> : null } */}
           

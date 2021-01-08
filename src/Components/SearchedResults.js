@@ -7,6 +7,7 @@ import SearchedTrack from './SearchedTrack.js'
 const SearchedResults = ( props ) => {
     console.log(props)
     
+    const [showTrack, setShowTrack] = useState(false)
 
      if(!props.items == []) {
          for(const item of props.items) {
@@ -19,7 +20,8 @@ const SearchedResults = ( props ) => {
      const clicked = (event) => {
          console.log(event.target.id)
         event.preventDefault()
-        props.clicked(event.target.id)
+        props.clicked(event.target.name)
+        setShowTrack(true)
     }
     
     return(
@@ -37,7 +39,7 @@ const SearchedResults = ( props ) => {
                 </Image.Group>  
             </div>
 
-            {props.selectedTrack ? <SearchedTrack selectedTrack={props.selectedTrack} postFavorite={props.postFavorite}/> : null } 
+            {showTrack ? <SearchedTrack selectedTrack={props.selectedTrack} postFavorite={props.postFavorite}/> : null } 
 
         </div>
 
