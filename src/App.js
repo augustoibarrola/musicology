@@ -27,7 +27,6 @@ const App = () => {
   const searchTypeOptions = [
     { key: 'album', text: 'album', value: 'album' },
     { key: 'artist', text: 'artist', value: 'artist' },
-    // { key: 'playlists', text: 'playlists', value: 'playlists' },
   ]
 
   useEffect(() => { 
@@ -82,6 +81,18 @@ const App = () => {
       })
     })
   }, [])
+
+  useEffect(()=> {
+    console.log("something was searched!")
+  }, [searchedResults])
+
+  useEffect(()=> {
+    console.log("ARTISTS were searched!")
+  }, [searchedArtists])
+
+  useEffect(()=> {
+    console.log("ALBUMS were searched!")
+  }, [searchedAlbums])
 
   const genreChanged = (value) => {
     let genreImg = genre.listOfGenresFromAPI.filter(g => g.id == value )
@@ -144,10 +155,11 @@ const App = () => {
 
   }
 
-  const searchedTrackClicked = (name) => {
-
-    const track = searchedResults.filter(t => t.name == name)
-    setSelectedSearchedTrack(track)
+  const searchedTrackClicked = (name, image) => {
+    console.log("i was clicked!", name)
+    console.log("and this is my image!", image)
+    // const track = searchedResults.filter(t => t.name == name)
+    // setSelectedSearchedTrack(track)
     // setShowTrack(true)
   }
 
@@ -173,40 +185,37 @@ const App = () => {
   const spotifySearch = (event, value, searchType) => {
     event.preventDefault()
 
-    axios(`	https://api.spotify.com/v1/search?q=${value}&type=${searchType}&limit=5`, {
-      method: 'GET', 
-      headers: { 
-        'Authorization' : 'Bearer ' + token, 
-        'Content-Type' : 'application/json',
-        'Accept' : 'application/json'
-      }
-    })
-    .then(response => {
-      console.log(response)
-      // if (searchType == 'artist') {
-      //   console.log(" artist  => ", response.data.artists.items)
-      //   // setSearchType('artists')
-      //   setSearchedResults(response.data.artists.items)
-      //   // setSearchedArtists(response.data.artists.items)
-      //   // setTracks({
-      //   //   selectedTracks: tracks.selectedTracks, 
-      //   //   listOfTracksFromAPI: response.data.artists.items
-      //   // })
-        
-      // } else {
-      //   console.log(" album  => ", response.data.albums.items)
-      //   // setSearchType('albums')
-      //   setSearchedResults(response.data.albums.items)
-      //   // setSearchedAlbums(response.data.albums.items)
-      //   // setTracks({
-      //   //   selectedTracks: tracks.selectedTracks, 
-      //   //   listOfTracksFromAPI: response.data.albums.items
-      //   // })
-      // }
-    })
+
+    if(searchType == 'artist'){
+      axios(`	https://api.spotify.com/v1/search?q=${value}&type=${searchType}&limit=5`, {
+        method: 'GET', 
+        headers: { 
+          'Authorization' : 'Bearer ' + token, 
+          'Content-Type' : 'application/json',
+          'Accept' : 'application/json'
+        }
+      })
+      .then(response => {
+        console.log(" ARTIST SEARCH => ", response)
+        setSearchedResults(response.data.artists.items)
+        setSearchedArtists(response.data.artists.items)
+      })
+    }else if(searchType == 'album'){
+      axios(`	https://api.spotify.com/v1/search?q=${value}&type=${searchType}&limit=5`, {
+        method: 'GET', 
+        headers: { 
+          'Authorization' : 'Bearer ' + token, 
+          'Content-Type' : 'application/json',
+          'Accept' : 'application/json'
+        }
+      })
+      .then(response => {
+        console.log(" ALBUM SEARCH => ", response)
+        setSearchedResults(response.data.albums.items)
+        setSearchedAlbums(response.data.albums.items)
+      })
+    }
   }
-
-
 
   return(
     <div> 
@@ -216,9 +225,12 @@ const App = () => {
 
             <Search searchTypeOptions={searchTypeOptions} spotifySearch={spotifySearch} />
 
+            {/* { searchedAlbums !== [] ? component of searched albums : null } */}
+            {/* { searchedArtists !== [] ? component of searched artists : null } */}
+
             { !searchedResults == [] ? <SearchedResults  items={searchedResults} clicked={searchedTrackClicked} selectedTrack={selectedSearchedTrack} postFavorite={postFavorite}/>   : null }
-{/* 
-            { selectedTrack ? <Track selectedTrack={selectedTrack} postFavorite={postFavorite}/> : null } */}
+
+            {/*   { selectedTrack ? <Track selectedTrack={selectedTrack} postFavorite={postFavorite}/> : null } */}
           
           </Grid.Row>
 

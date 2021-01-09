@@ -8,7 +8,6 @@ const TrackBox = (props) => {
 
 
     const clicked = (event) => {
-        
     event.preventDefault()
     props.clicked(event.target.id)
     }
