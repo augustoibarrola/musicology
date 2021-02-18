@@ -5,7 +5,7 @@ import { Container, Image, Grid, Divider, Header } from 'semantic-ui-react'
 import Dropdown from './Components/Dropdown.js'
 import TrackBox from './Components/TrackBox.js'
 import Track from './Components/Track.js'
-import Search from './Components/Search.js'
+
 import SearchResults from './Components/SearchResults.js'
 import SearchedResults from './Components/SearchedResults.js'
 
@@ -221,18 +221,6 @@ const App = () => {
     <div> 
       <Container>
         <Grid divided='vertically' style={{ padding: '20px', minWidth: 'max-content' }}>
-          <Grid.Row>
-
-            <Search searchTypeOptions={searchTypeOptions} spotifySearch={spotifySearch} />
-
-            {/* { searchedAlbums !== [] ? component of searched albums : null } */}
-            {/* { searchedArtists !== [] ? component of searched artists : null } */}
-
-            { !searchedResults == [] ? <SearchedResults  items={searchedResults} clicked={searchedTrackClicked} selectedTrack={selectedSearchedTrack} postFavorite={postFavorite}/>   : null }
-
-            {/*   { selectedTrack ? <Track selectedTrack={selectedTrack} postFavorite={postFavorite}/> : null } */}
-          
-          </Grid.Row>
 
           <Grid.Row columns={2} style={{ }}>
             

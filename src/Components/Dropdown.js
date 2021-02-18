@@ -9,7 +9,7 @@ const Dropdown =  ( props ) => {
     
     return(
 
-        <div>
+        <div class="dropdown-selector">
                 <select value={props.selectedValue} onChange={(event) => dropdownChanged(event) }>
                     { props.options.map( (item, index) => <option key={ index } value={ item.id } >{ item.name }</option>   ) }
                 </select>
