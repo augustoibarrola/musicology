@@ -5,8 +5,7 @@ import TrackThumbnail from './TrackThumbnail.js'
 import SearchedTrack from './SearchedTrack.js'
 
 const SearchedResults = ( { items, clicked, selectedTrack, postFavorite } ) => {
-    console.log(items, clicked, selectedTrack, postFavorite)
-    
+    // console.log(items, clicked, selectedTrack, postFavorite)
 
     
     return(

@@ -83,15 +83,15 @@ const App = () => {
   }, [])
 
   useEffect(()=> {
-    console.log("something was searched!")
+    // console.log("something was searched!")
   }, [searchedResults])
 
   useEffect(()=> {
-    console.log("ARTISTS were searched!")
+    // console.log("ARTISTS were searched!")
   }, [searchedArtists])
 
   useEffect(()=> {
-    console.log("ALBUMS were searched!")
+    // console.log("ALBUMS were searched!")
   }, [searchedAlbums])
 
   const genreChanged = (value) => {
@@ -146,8 +146,8 @@ const App = () => {
   }
 
   const trackBoxClicked = (value) => {
-    console.log(value)
-    console.log(tracks.listOfTracksFromAPI.filter(t => t.track.id == value))
+    // console.log(value)
+    // console.log(tracks.listOfTracksFromAPI.filter(t => t.track.id == value))
 
     const track = tracks.listOfTracksFromAPI.filter(t => t.track.id == value)
     setSelectedTrack(track)
@@ -156,8 +156,8 @@ const App = () => {
   }
 
   const searchedTrackClicked = (name, image) => {
-    console.log("i was clicked!", name)
-    console.log("and this is my image!", image)
+    // console.log("i was clicked!", name)
+    // console.log("and this is my image!", image)
     // const track = searchedResults.filter(t => t.name == name)
     // setSelectedSearchedTrack(track)
     // setShowTrack(true)

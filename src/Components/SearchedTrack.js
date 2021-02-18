@@ -33,6 +33,8 @@ const SearchedTrack = ({selectedTrack, postFavorite}) => {
         const colors = albumColors 
 
         return colors.map( ( color, id ) => {
+            // console.log(color)
+            // console.log(id)
         return  <div key={id} style={{backgroundColor: color, width: '100px', height: '100px'}}></div> 
         } )
     }
