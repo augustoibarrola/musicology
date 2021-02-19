@@ -22,7 +22,7 @@ const TrackBox = (props) => {
                 }
             </Image.Group>  
         </div>
-        <div>
+        <div className="track-container-rows">
             {props.selectedTrack ? <Track selectedTrack={props.selectedTrack} postFavorite={props.postFavorite}/> : null }
         </div>
     </div>

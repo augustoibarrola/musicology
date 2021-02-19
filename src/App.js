@@ -215,49 +215,24 @@ const App = () => {
 
   return(
     <div className="main-container"> 
-      <Container>
-        <Grid divided='vertically' style={{ padding: '20px', minWidth: 'max-content' }}>
 
-          <Grid.Row columns={2} >
-            
-            <Grid.Column style={{
-              display: 'flex',
-              flexDirection:  'column',
-              alignItems: 'baseline',
-              justifyContent:' space-around',
-              height: '770px',
-              maxWidth: '400px'
-              }}>
-
+      <div>
               <div>
-                <Header size="huge"> Genre </Header>
-                { genre ?  <Image src={genre.selectedGenreImg} size="medium" rounded /> : null }
+                <h1> Genre </h1>
+                { genre ?  <img className="album-cover" src={genre.selectedGenreImg} /> : null }
               </div>
 
               <Dropdown options={genre.listOfGenresFromAPI} selectedValue={ genre.selectedGenre } changed={genreChanged} selectedGenreImg={genre.selectedGenreImg} selection/>
               
               <div> 
-                <Header size="huge"> Playlist </Header>
-                <Image src={playlist.selectedPlaylistImg} size="medium" rounded />
+                <h1> Playlist </h1>
+                <img className="album-cover" src={playlist.selectedPlaylistImg}/>
               </div>
 
-              <Dropdown options={playlist.listOfPlaylistFromAPI} selectedValue={playlist.selectedPlaylist} selectedGenreImg={playlist.selectedPlaylistImg} changed={playlistChanged}  selection/>
-              
-            </Grid.Column> 
-
-            <Grid.Column style={{padding: '35px', paddingLeft: '95px'}}> 
-
+              <Dropdown options={playlist.listOfPlaylistFromAPI} selectedValue={playlist.selectedPlaylist} selectedGenreImg={playlist.selectedPlaylistImg} changed={playlistChanged}  selection/>        
+      </div>
               <TrackBox  items={tracks.listOfTracksFromAPI} clicked={trackBoxClicked} selectedTrack={selectedTrack} postFavorite={postFavorite}/>
-            
-            </Grid.Column>
-
-          </Grid.Row>
-
-        </Grid> 
-
-      </Container>
     </div>
-
   )
 }
 
