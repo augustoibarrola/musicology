@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { ColorExtractor } from 'react-color-extractor'
 
-const Track = ({ selectedTrack, postFavorite }) => {
+const Track = ({ selectedTrack }) => {
 
     const [albumColors, setAlbumColors] = useState([])
     const [album, setAlbum] = useState({})

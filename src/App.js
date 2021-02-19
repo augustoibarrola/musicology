@@ -76,18 +76,6 @@ const App = () => {
     })
   }, [])
 
-  useEffect(()=> {
-    // console.log("something was searched!")
-  }, [searchedResults])
-
-  useEffect(()=> {
-    // console.log("ARTISTS were searched!")
-  }, [searchedArtists])
-
-  useEffect(()=> {
-    // console.log("ALBUMS were searched!")
-  }, [searchedAlbums])
-
   const genreChanged = (value) => {
     let genreImg = genre.listOfGenresFromAPI.filter(g => g.id == value )
     
@@ -143,59 +131,6 @@ const App = () => {
     setShowTrack(true)
   }
 
-  const searchedTrackClicked = (name, image) => {
-  }
-
-  const postFavorite = (album) => {
-    fetch('http://localhost:3000/tracks', {
-      method: 'POST', 
-      headers: {
-        'content-type': 'application/json',
-        'accepts': 'application/json'
-      }, 
-      body: JSON.stringify({
-        track_name: album.name, 
-        track_artist: album.albumArtist, 
-        track_album: album.name
-      })
-    })
-    .then(response => response.json())      
-    .then(console.log)
-  }
-
-  const spotifySearch = (event, value, searchType) => {
-    event.preventDefault()
-    if(searchType == 'artist'){
-      axios(`	https://api.spotify.com/v1/search?q=${value}&type=${searchType}&limit=5`, {
-        method: 'GET', 
-        headers: { 
-          'Authorization' : 'Bearer ' + token, 
-          'Content-Type' : 'application/json',
-          'Accept' : 'application/json'
-        }
-      })
-      .then(response => {
-        console.log(" ARTIST SEARCH => ", response)
-        setSearchedResults(response.data.artists.items)
-        setSearchedArtists(response.data.artists.items)
-      })
-    }else if(searchType == 'album'){
-      axios(`	https://api.spotify.com/v1/search?q=${value}&type=${searchType}&limit=5`, {
-        method: 'GET', 
-        headers: { 
-          'Authorization' : 'Bearer ' + token, 
-          'Content-Type' : 'application/json',
-          'Accept' : 'application/json'
-        }
-      })
-      .then(response => {
-        console.log(" ALBUM SEARCH => ", response)
-        setSearchedResults(response.data.albums.items)
-        setSearchedAlbums(response.data.albums.items)
-      })
-    }
-  }
-
   return(
     <div className="main-container"> 
       <div className="main-container-rows">
@@ -214,7 +149,7 @@ const App = () => {
       </div>
 
       <div className="main-container-rows">
-        <TrackBox  items={tracks.listOfTracksFromAPI} clicked={trackBoxClicked} selectedTrack={selectedTrack} postFavorite={postFavorite}/>
+        <TrackBox  items={tracks.listOfTracksFromAPI} clicked={trackBoxClicked} selectedTrack={selectedTrack}/>
       </div>
 
     </div>
