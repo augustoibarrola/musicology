@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Image } from 'semantic-ui-react'
 
 const TrackThumbnail = ({index, id, name, clicked, image}) => {
     return(
-        <div>
-            <Image src={image} index={index} id={id} name={name} size='small' rounded onClick={event => { clicked( event ) } }></Image>
+        <div className="track-thumbnails-container">
+            <img className="album-thumbnails" src={image} index={index} id={id} name={name} onClick={event => { clicked( event ) } }/>
         </div>
     )
 }   

@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-
 import Dropdown from './Components/Dropdown.js'
 import TrackBox from './Components/TrackBox.js'
-import Track from './Components/Track.js'
-
-import SearchResults from './Components/SearchResults.js'
-import SearchedResults from './Components/SearchedResults.js'
 
 const App = () => {
   

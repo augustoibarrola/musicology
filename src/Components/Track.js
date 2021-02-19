@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react'
-import { Icon, Grid, Header } from 'semantic-ui-react'
 import { ColorExtractor } from 'react-color-extractor'
 
 const Track = ({ selectedTrack, postFavorite }) => {
@@ -32,9 +31,9 @@ const Track = ({ selectedTrack, postFavorite }) => {
 
     return( 
         <div className="track-color-container">
-            <img className="img" src={album.image}  style={{ maxHeight:'275px', maxWidth: '275px' }} ></img>
 
-        
+            <img className="album-cover" src={album.image}/>
+
             <div>
                 <h1>{album.name}</h1>
                 <h2> by <em>{album.albumArtist}</em> </h2>

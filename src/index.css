@@ -22,7 +22,9 @@
 .track-container-row{
     background: green;
     width: 100%;
-    justify-self: start;
+}
+.track-thumbnails-container{
+    background: red;
 }
 
 .track-color-container{
@@ -31,5 +33,9 @@
 
 .album-cover{
     width: 300px;
-    height: 300px
+    height: 300px;
+}
+.album-thumbnails{
+    height: 150px;
+    width: 150px;
 }
