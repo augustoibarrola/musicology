@@ -13,7 +13,7 @@ const TrackBox = (props) => {
   return(
 
     <div className="track-container-main">
-        <div> 
+        <div className="track-container-row"> 
             <Image.Group style={{ width: '900px' }}>
                 {
                     props.items.map((item, index) => {
@@ -22,9 +22,11 @@ const TrackBox = (props) => {
                 }
             </Image.Group>  
         </div>
-        <div className="track-container-rows">
+
+        <div className="track-container-row">
             {props.selectedTrack ? <Track selectedTrack={props.selectedTrack} postFavorite={props.postFavorite}/> : null }
         </div>
+
     </div>
 
     )

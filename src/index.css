@@ -1,17 +1,34 @@
 .main-container{
     border: 1px solid black;
     padding: 3rem;
+    display:grid;
+    grid-template-columns: 35% auto 
+}
+
+.main-container-rows{
+    border: 1px solid black
+}
+
+.dropdown-selector{
+    width: 100%
 }
 
 .track-container-main{
     display: grid;
     grid-template-rows: 50% auto;
-    border: black solid 1px;
+    border: green solid 2px;
 }
-.track-container-rows{
-    border: black;
+
+.track-container-row{
+    background: green;
     width: 100%;
+    justify-self: start;
 }
+
+.track-color-container{
+    background: yellow
+}
+
 .album-cover{
     width: 300px;
     height: 300px

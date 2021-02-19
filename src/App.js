@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Container, Image, Grid, Divider, Header } from 'semantic-ui-react'
 
 import Dropdown from './Components/Dropdown.js'
 import TrackBox from './Components/TrackBox.js'
@@ -118,7 +117,6 @@ const App = () => {
   }
 
   const playlistChanged = (value) => {
-
     let playlistImg = playlist.listOfPlaylistFromAPI.filter(p => p.id == value)
     
     setPlaylist({
@@ -142,25 +140,18 @@ const App = () => {
         listOfTracksFromAPI: tracksResponse.data.items
       })
     })
-
   }
 
   const trackBoxClicked = (value) => {
-    
-
-
     const track = tracks.listOfTracksFromAPI.filter(t => t.track.id == value)
     setSelectedTrack(track)
     setShowTrack(true)
-
   }
 
   const searchedTrackClicked = (name, image) => {
-
   }
 
   const postFavorite = (album) => {
-
     fetch('http://localhost:3000/tracks', {
       method: 'POST', 
       headers: {
@@ -175,13 +166,10 @@ const App = () => {
     })
     .then(response => response.json())      
     .then(console.log)
-
   }
 
   const spotifySearch = (event, value, searchType) => {
     event.preventDefault()
-
-
     if(searchType == 'artist'){
       axios(`	https://api.spotify.com/v1/search?q=${value}&type=${searchType}&limit=5`, {
         method: 'GET', 
@@ -215,23 +203,25 @@ const App = () => {
 
   return(
     <div className="main-container"> 
+      <div className="main-container-rows">
+        <div>
+          <h1> Genre </h1>
+          { genre ?  <img className="album-cover" src={genre.selectedGenreImg} /> : null }
+          <Dropdown options={genre.listOfGenresFromAPI} selectedValue={ genre.selectedGenre } changed={genreChanged} selectedGenreImg={genre.selectedGenreImg} selection/>
+        </div>
+        
+        <div> 
+          <h1> Playlist </h1>
+          <img className="album-cover" src={playlist.selectedPlaylistImg}/>
+          <Dropdown options={playlist.listOfPlaylistFromAPI} selectedValue={playlist.selectedPlaylist} selectedGenreImg={playlist.selectedPlaylistImg} changed={playlistChanged}  selection/>        
+        </div>
 
-      <div>
-              <div>
-                <h1> Genre </h1>
-                { genre ?  <img className="album-cover" src={genre.selectedGenreImg} /> : null }
-              </div>
-
-              <Dropdown options={genre.listOfGenresFromAPI} selectedValue={ genre.selectedGenre } changed={genreChanged} selectedGenreImg={genre.selectedGenreImg} selection/>
-              
-              <div> 
-                <h1> Playlist </h1>
-                <img className="album-cover" src={playlist.selectedPlaylistImg}/>
-              </div>
-
-              <Dropdown options={playlist.listOfPlaylistFromAPI} selectedValue={playlist.selectedPlaylist} selectedGenreImg={playlist.selectedPlaylistImg} changed={playlistChanged}  selection/>        
       </div>
-              <TrackBox  items={tracks.listOfTracksFromAPI} clicked={trackBoxClicked} selectedTrack={selectedTrack} postFavorite={postFavorite}/>
+
+      <div className="main-container-rows">
+        <TrackBox  items={tracks.listOfTracksFromAPI} clicked={trackBoxClicked} selectedTrack={selectedTrack} postFavorite={postFavorite}/>
+      </div>
+
     </div>
   )
 }

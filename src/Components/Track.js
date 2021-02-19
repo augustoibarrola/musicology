@@ -4,9 +4,6 @@ import { ColorExtractor } from 'react-color-extractor'
 
 const Track = ({ selectedTrack, postFavorite }) => {
 
-    console.log(selectedTrack)
-    console.log(postFavorite)
-
     const [albumColors, setAlbumColors] = useState([])
     const [album, setAlbum] = useState({})
 
@@ -24,8 +21,6 @@ const Track = ({ selectedTrack, postFavorite }) => {
         const colors = albumColors 
 
         return colors.map( ( color, id ) => {
-            console.log(color)
-            console.log(id)
         return  <div key={id} style={{backgroundColor: color, width: '100', height: '100'}}></div> 
         } )
     }
@@ -36,36 +31,22 @@ const Track = ({ selectedTrack, postFavorite }) => {
 
 
     return( 
-        <div>
-            <Grid divided='vertically' style={{ width: '130%' }} >
+        <div className="track-color-container">
+            <img className="img" src={album.image}  style={{ maxHeight:'275px', maxWidth: '275px' }} ></img>
 
-                <Grid.Row columns={2}>
+        
+            <div>
+                <h1>{album.name}</h1>
+                <h2> by <em>{album.albumArtist}</em> </h2>
+            </div>
 
-                    <Grid.Column style={{paddingLeft: '93px'}}>
+            <div> 
+                <ColorExtractor getColors={colors => {getColors(colors)}} src={album.image} maxColors={10}/>
+                <div style={ { marginTop: '20px', display: 'flex', justifyContent: 'center' } }>
+                    {renderColors()}
+                </div>
+            </div>   
 
-                        <img className="img" src={album.image}  style={{ maxHeight:'275px', maxWidth: '275px' }} ></img>
-
-                    </Grid.Column>
-
-                    <Grid.Column >
-                        <div>
-                            <Header size="large">{album.name}</Header>
-                            <Header size="medium"> by <em>{album.albumArtist}</em> </Header>
-                            <Icon name="heart" onClick={() => postFavorite(album)}></Icon>
-                        </div>
-
-                        <div> 
-                            <ColorExtractor getColors={colors => {getColors(colors)}} src={album.image} maxColors={10}/>
-                            <div style={ { marginTop: '20px', display: 'flex', justifyContent: 'center' } }>
-                                {renderColors()}
-                            </div>
-                        </div>
-
-                    </Grid.Column>
-
-                </Grid.Row>
-            
-            </Grid>
         </div>
     )
 }
