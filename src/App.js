@@ -146,8 +146,8 @@ const App = () => {
   }
 
   const trackBoxClicked = (value) => {
-    // console.log(value)
-    // console.log(tracks.listOfTracksFromAPI.filter(t => t.track.id == value))
+    
+
 
     const track = tracks.listOfTracksFromAPI.filter(t => t.track.id == value)
     setSelectedTrack(track)
@@ -156,11 +156,7 @@ const App = () => {
   }
 
   const searchedTrackClicked = (name, image) => {
-    // console.log("i was clicked!", name)
-    // console.log("and this is my image!", image)
-    // const track = searchedResults.filter(t => t.name == name)
-    // setSelectedSearchedTrack(track)
-    // setShowTrack(true)
+
   }
 
   const postFavorite = (album) => {
@@ -218,11 +214,11 @@ const App = () => {
   }
 
   return(
-    <div> 
+    <div class="main-container" style={{padding: '3rem'}}> 
       <Container>
         <Grid divided='vertically' style={{ padding: '20px', minWidth: 'max-content' }}>
 
-          <Grid.Row columns={2} style={{ }}>
+          <Grid.Row columns={2} >
             
             <Grid.Column style={{
               display: 'flex',

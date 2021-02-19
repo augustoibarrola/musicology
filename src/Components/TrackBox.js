@@ -4,8 +4,6 @@ import Track from './Track.js'
 import TrackThumbnail from './TrackThumbnail.js'
 
 const TrackBox = (props) => {
-    // console.log(props)
-
 
     const clicked = (event) => {
     event.preventDefault()
@@ -14,7 +12,7 @@ const TrackBox = (props) => {
     
   return(
 
-    <div>
+    <div class="container">
         <div> 
             <Image.Group style={{ width: '900px' }}>
                 {
@@ -24,9 +22,9 @@ const TrackBox = (props) => {
                 }
             </Image.Group>  
         </div>
-
-        {props.selectedTrack ? <Track selectedTrack={props.selectedTrack} postFavorite={props.postFavorite}/> : null }
-
+        <div>
+            {props.selectedTrack ? <Track selectedTrack={props.selectedTrack} postFavorite={props.postFavorite}/> : null }
+        </div>
     </div>
 
     )

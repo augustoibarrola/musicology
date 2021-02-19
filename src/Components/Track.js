@@ -47,7 +47,7 @@ const Track = ({ selectedTrack, postFavorite }) => {
         <div>
             <Grid divided='vertically' style={{ width: '130%' }} >
 
-                <Grid.Row columns={2} style={{display: 'flex', flexDirection: 'row-reverse', paddingTop: '40px', paddingRight: '137rem'}}>
+                <Grid.Row columns={2} style={{display: 'flex', flexDirection: 'row-reverse', padding: '4rem'}}>
 
                     <Grid.Column style={{paddingLeft: '93px'}}>
 
