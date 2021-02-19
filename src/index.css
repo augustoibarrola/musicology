@@ -1,0 +1,9 @@
+.track-container-main{
+    display: grid;
+    grid-template-rows: 50% auto;
+    border: black solid 1px;
+}
+
+.main-container{
+    padding: 3rem, 0rem, 0rem, 0rem;
+}

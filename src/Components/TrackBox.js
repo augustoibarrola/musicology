@@ -12,7 +12,7 @@ const TrackBox = (props) => {
     
   return(
 
-    <div class="container">
+    <div className="track-container-main">
         <div> 
             <Image.Group style={{ width: '900px' }}>
                 {

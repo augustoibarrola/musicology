@@ -214,7 +214,7 @@ const App = () => {
   }
 
   return(
-    <div class="main-container" style={{padding: '3rem'}}> 
+    <div className="main-container"> 
       <Container>
         <Grid divided='vertically' style={{ padding: '20px', minWidth: 'max-content' }}>
 

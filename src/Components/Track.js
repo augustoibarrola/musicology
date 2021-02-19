@@ -7,16 +7,8 @@ const Track = ({ selectedTrack, postFavorite }) => {
     console.log(selectedTrack)
     console.log(postFavorite)
 
-    const [album, setAlbum] = useState({
-        name: selectedTrack[0].track.album.name,
-        albumArtist: selectedTrack[0].track.artists[0].name, 
-        image: selectedTrack[0].track.album.images[0].url,
-        albumId: selectedTrack[0].track.album.id,
-        releaseDate: selectedTrack[0].track.album.release_date
-    })
-
     const [albumColors, setAlbumColors] = useState([])
-
+    const [album, setAlbum] = useState({})
 
     useEffect(() => {
         setAlbum({
@@ -34,7 +26,7 @@ const Track = ({ selectedTrack, postFavorite }) => {
         return colors.map( ( color, id ) => {
             console.log(color)
             console.log(id)
-        return  <div key={id} style={{backgroundColor: color, width: '100px', height: '100px'}}></div> 
+        return  <div key={id} style={{backgroundColor: color, width: '100', height: '100'}}></div> 
         } )
     }
 
@@ -63,7 +55,7 @@ const Track = ({ selectedTrack, postFavorite }) => {
                         </div>
 
                         <div> 
-                            <ColorExtractor getColors={colors => {getColors(colors)}} src={album.image} />
+                            <ColorExtractor getColors={colors => {getColors(colors)}} src={album.image} maxColors={10}/>
                             <div style={ { marginTop: '20px', display: 'flex', justifyContent: 'center' } }>
                                 {renderColors()}
                             </div>

@@ -1,9 +1,10 @@
-.container{
+/* .container{
     display: grid;
     grid-template-rows: 50% auto;
     outline: black solid 1px;
 }
 
 .main-container{
-    padding: 3rem, 0rem, 0rem, 0rem
-}
+    padding: 3rem, 0rem, 0rem, 0rem;
+    border: 1px solid black 
+} */
